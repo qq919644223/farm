@@ -3,16 +3,16 @@ spring:
     auto: true
     proxy-target-class: true
   redis:
-    host: 47.92.101.6
-    password: dnc.2009
-    database: 10
+    database: 0
+    host: 127.0.0.1
+    port: 6379
   datasource:
     name: dataSource
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/bookstore?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 882013
+    password: 123456
     druid:
       initialSize: 1
       minIdle: 1
@@ -62,5 +62,3 @@ sc:
       queue-capacity: 200
       keep-alive-seconds: 3000
       thread-name-prefix: sc-task-executor-
-
-
