@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.goodsclass.dao.GoodsClassDao">
+
+    <!--检验新增的商品分类名称是否已存在-->
+    <select id="countClassName" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo" resultType="int">
+        select count(class_name)
+        from t_goods_class
+        where is_deleted = 0
+        and class_name = #{className}
+        <if test="classCode != null and classCode != ''">
+            and class_code != #{classCode}
+        </if>
+    </select>
+    <!--检验删除的商品分类是否存在二级分类-->
+    <select id="countSecondClass" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo" resultType="int">
+        select count(class_name)
+        from t_goods_class
+        where is_deleted = 0
+        and last_class_code = #{classCode}
+        <if test="classCode != null and classCode != ''">
+            and class_code != #{classCode}
+        </if>
+    </select>
+    <!--新增商品分类-->
+    <insert id="saveGoodsClass" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        insert into
+        t_goods_class
+        (class_code,
+        class_name,
+        last_class_code,
+        remark,
+        is_deleted,
+        create_name,
+        create_time,
+        version
+        )
+        values
+        (#{classCode},
+        #{className},
+        #{lastClassCode},
+        #{remark},
+        #{isDeleted},
+        #{createName},
+        now(),
+        0
+        )
+    </insert>
+
+    <!--修改商品分类信息-->
+    <update id="updateGoodsClass" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        update t_goods_class
+        set
+            class_name = #{className},
+            remark = #{remark},
+            update_name = #{updateName},
+            update_time = now(),
+            version = version + 1
+        where class_code = #{classCode}
+        and version = #{version}
+    </update>
+    <!--检验删除的商品分类下是否存在商品-->
+    <select id="countSecondGoods" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo" resultType="int">
+        select
+        count(goods_code)
+        from t_goods
+        where class_second_code = #{classCode}
+        and is_deleted = 0
+    </select>
+    <!--商品分类的Map-->
+        <resultMap id="classFirstList" type="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+            <id column="class_code" property="classFirstCode" jdbcType="VARCHAR" />
+            <id column="class_name" property="classFirstName" jdbcType="VARCHAR" />
+        <collection property="classSecondList" ofType="com.xzsd.pc.goodsclass.entity.ClassSecondList">
+            <id column="classSecondCode" property="classSecondCode" jdbcType="VARCHAR" />
+            <id column="classSecondName" property="classSecondName" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--获取商品分类列表-->
+    <select id="listGoodsClass" resultMap="classFirstList">
+        select
+            a.class_code,
+            a.class_name,
+            b.class_code as classSecondCode,
+            b.class_name as classSecondName
+        from
+        t_goods_class a LEFT JOIN t_goods_class b
+        on (a.class_code = b.last_class_code
+		and b.last_class_code is NOT NULL
+        and b.is_deleted = 0
+		)
+        where a.last_class_code is null
+		and a.is_deleted = 0
+		ORDER BY
+		a.create_time DESC
+    </select>
+
+    <!--删除商品分类-->
+    <update id="deleteGoodsClass" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        update t_goods_class
+        set
+            is_deleted = 1,
+            update_time = now(),
+            update_name = #{updateName},
+            version = version + 1
+        where class_code = #{classCode}
+    </update>
+
+    <!--获取商品分类信息-->
+    <select id="getClassByClassCode" parameterType="java.lang.String" resultType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        select
+            class_code classCode,
+            class_name className,
+            last_class_code lastClassCode,
+            is_deleted isDeleted,
+            remark remark,
+            create_time createTime,
+            create_name createName,
+            update_time updateTime,
+            update_name updateName,
+            version version
+        from t_goods_class
+        where class_code = #{classCode}
+        and is_deleted = 0
+    </select>
+</mapper>

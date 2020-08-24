@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.goods.dao.GoodsDao">
+
+    <!-- 新增产品-->
+    <insert id="saveGoods" parameterType="com.xzsd.pc.goods.entity.GoodsInfo">
+        insert into t_goods
+        (goods_code,
+         goods_name,
+         class_first_code,
+         class_second_code,
+         goods_introduce,
+         advertisement,
+         user_code,
+         cost_price,
+         sale_price,
+         stock,
+         goods_address,
+         quality_date,
+         image_code,
+         a_level,
+         goods_state,
+         audit,
+         is_deleted,
+         create_name,
+         create_time,
+         version
+        )
+        values
+        (
+        #{goodsCode},
+        #{goodsName},
+        #{classFirstCode},
+        #{classSecondCode},
+        #{goodsIntroduce},
+        #{advertisement},
+        #{userCode},
+        #{costPrice},
+        #{salePrice},
+        #{stock},
+        #{goodsAddress},
+        #{qualityDate},
+        #{imagePath},
+        5,
+        3,
+        3,
+        #{isDeleted},
+        #{createName},
+        now(),
+        0
+        )
+    </insert>
+
+    <!--查询产品详情-->
+    <select id="getGoodsByGoodsCode" parameterType="java.lang.String" resultType="com.xzsd.pc.goods.entity.GoodsInfo">
+        select
+             a.goods_code goodsCode,
+             a.goods_name goodsName,
+             a.cost_price costPrice,
+             a.sale_price salePrice,
+             a.sum_sale sumSale,
+             a.class_first_code classFirstCode,
+             a.class_second_code classSecondCode,
+             a.advertisement,
+             a.goods_introduce goodsIntroduce,
+             a.goods_state goodsState,
+             a.up_time upTime,
+             a.stock stock,
+             a.image_code imagePath,
+             a.goods_address goodsAddress,
+             a.quality_date qualityDate,
+             a.audit audit,
+             a.create_time createTime,
+             a.create_name createName,
+             a.update_time updateTime,
+             a.update_name updateName,
+             a.version version
+         from t_goods a
+         where a.goods_code = #{goodsCode}
+         and a.is_deleted = 0
+    </select>
+
+    <!--查询产品列表-->
+    <select id="listGoodsByPage" parameterType="com.xzsd.pc.goods.entity.GoodsInfo" resultType="com.xzsd.pc.goods.entity.GoodsInfo">
+        select
+        a.goods_code goodsCode,
+        a.goods_name goodsName,
+        a.cost_price costPrice,
+        a.sale_price salePrice,
+        a.sum_sale sumSale,
+        a.class_first_code classFirstCode,
+        a.class_second_code classSecondCode,
+        a.advertisement advertisement,
+        a.goods_introduce goodsIntroduce,
+        a.goods_state goodsState,
+        a.up_time upTime,
+        a.stock stock,
+        a.image_code imagePath,
+        a.goods_address goodsAddress,
+        a.quality_date qualityDate,
+        a.audit audit,
+        a.is_deleted isDeleted,
+        a.create_time createTime,
+        a.create_name createName,
+        a.update_time updateTime,
+        a.update_name updateName,
+        a.version version
+        from
+        t_goods a
+        where a.is_deleted = 0
+        <if test="goodsState != null and goodsState != ''">
+            and a.goods_state like concat('%', #{goodsState}, '%')
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            and a.goods_name like concat('%', #{goodsName}, '%')
+        </if>
+        <if test="advertisement != null and advertisement != ''">
+            and a.advertisement like concat('%', #{advertisement}, '%')
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <!--查询在轮播图的商品编码-->
+    <select id="listHotShow" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+        goods_code
+        from t_picture_show
+        where is_deleted = 0
+        and goods_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--删除产品-->
+    <update id="deleteGoods" parameterType="com.xzsd.pc.goods.entity.GoodsInfo">
+        update t_goods
+        set is_deleted = 1,
+        goods_state = 1,
+        update_time = now(),
+        update_name = #{userId},
+        version = version + 1
+        where goods_code in
+        <foreach item="item" index="index" collection="listGoodsCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--修改商品信息-->
+    <update id="updateGoods" parameterType="com.xzsd.pc.goods.entity.GoodsInfo">
+    update t_goods
+    set
+         goods_name = #{goodsName},
+         cost_price = #{costPrice},
+         sale_price = #{salePrice},
+         sum_sale = #{sumSale},
+         class_first_code = #{classFirstCode},
+         class_second_code = #{classSecondCode},
+         advertisement = #{advertisement},
+         goods_introduce = #{goodsIntroduce},
+         goods_state = #{goodsState},
+         stock = #{stock},
+         image_code = #{imagePath},
+         goods_address = #{goodsAddress},
+         quality_date = #{qualityDate},
+         update_name = #{updateName},
+         update_time = now(),
+         version = version + 1
+    where goods_code = #{goodsCode}
+    and version = #{version}
+  </update>
+
+    <!--修改产品上架下架-->
+    <update id="updateGoodsState" parameterType="com.xzsd.pc.goods.entity.GoodsInfo">
+        update t_goods
+        set
+        goods_state = #{goodsState},
+        update_time = now(),
+        <if test="goodsState != null and goodsState != '' and goodsState == 2">
+            up_time = now(),
+        </if>
+        update_name = #{userId},
+        version = version + 1
+        where goods_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and version in
+        <foreach item="item" index="index" collection="listVersion" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--审核产品-->
+    <update id="updateGoodsAudit" parameterType="com.xzsd.pc.goods.entity.GoodsInfo">
+        update t_goods
+        set
+        audit = #{audit},
+        update_time = now(),
+        update_name = #{userId},
+        version = version + 1
+        where goods_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and version in
+        <foreach item="item" index="index" collection="listVersion" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询一级分类列表-->
+    <select id="getFirstClass" parameterType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo" resultType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        select
+        a.class_name classFirstName,
+        a.class_code classFirstCode,
+        a.version version
+        from t_goods_class a
+        where a.is_deleted = 0
+        and a.last_class_code is null
+        order by create_time desc
+    </select>
+
+    <!--查询二级分类列表-->
+    <select id="getSecondClass" parameterType="java.lang.String" resultType="com.xzsd.pc.goodsclass.entity.GoodsClassInfo">
+        select
+            a.class_name classSecondName,
+            a.class_code classSecondCode,
+            a.version version
+        from t_goods_class a
+        where a.is_deleted = 0
+        and a.last_class_code = #{lastClassCode}
+        order by
+        create_time
+        desc
+    </select>
+</mapper>
+
