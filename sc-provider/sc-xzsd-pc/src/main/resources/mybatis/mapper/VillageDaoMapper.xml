@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.village.dao.VillageDao">
+    <!--新增乡村信息-->
+    <insert id="saveVillage" parameterType="com.xzsd.pc.village.entity.VillageInfo">
+        insert into t_village
+        (
+         village_code,
+         village_name,
+         village_introduce,
+         image_code,
+         address,
+         province_code,
+         city_code,
+         area_code,
+         is_deleted,
+         create_name,
+         create_time,
+         update_name,
+         update_time,
+         version
+         )
+        values
+        (
+          #{villageCode},
+          #{villageName},
+          #{villageIntroduce},
+          #{imageCode},
+          #{address},
+          #{provinceCode},
+          #{cityCode},
+          #{areaCode},
+          #{isDeleted},
+          #{createBy},
+          now(),
+          #{lastModifiedBy},
+          now(),
+         0)
+    </insert>
+
+    <!--乡村信息列表-->
+    <select id="listVillageByPage" parameterType="com.xzsd.pc.village.entity.VillageInfo" resultType="com.xzsd.pc.village.entity.VillageInfo">
+        select
+        a.village_code villageCode,
+        a.village_name villageName,
+        a.village_introduce villageIntroduce,
+        a.image_code imageCode,
+        a.address address,
+        c.dict_name provinceName,
+        d.dict_name cityName,
+        e.dict_name areaName,
+        a.version version
+        from t_village a
+        left join t_dictionary c
+        on a.province_code = c.dict_value
+        left join t_dictionary d
+        on a.city_code = d.dict_value
+        left join t_dictionary e
+        on a.area_code = e.dict_value
+        where
+        a.is_deleted = 0
+        <if test="villageCode != null and villageCode != ''">
+            and a.village_code like concat('%', #{villageCode}, '%')
+        </if>
+        <if test="villageName != null and villageName != ''">
+            and a.village_name like concat('%', #{villageName}, '%')
+        </if>
+        <if test="provinceCode != null and provinceCode != ''">
+            and a.province_code = #{provinceCode}
+        </if>
+        <if test="cityCode != null and cityCode != ''">
+            and a.city_code = #{cityCode}
+        </if>
+        <if test="areaCode != null and areaCode != ''">
+            and a.area_code = #{areaCode}
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <!--获取门店详情-->
+    <select id="getVillageByVillageCode" parameterType="java.lang.String" resultType="com.xzsd.pc.village.entity.VillageInfo">
+        select distinct
+         a.village_code villageCode,
+         a.village_name villageName,
+         a.village_introduce villageIntroduce,
+         a.address address,
+         a.image_code imageCode,
+         a.province_code provinceCode,
+         a.city_code cityCode,
+         a.area_code areaCode,
+         a.version version
+       from
+         t_village a
+       where
+         a.is_deleted = 0
+       and
+         a.village_code = #{villageCode}
+    </select>
+
+    <!--修改乡村信息-->
+    <update id="updateVillage" parameterType="com.xzsd.pc.village.entity.VillageInfo">
+        update t_village
+        set
+            village_code = #{villageCode},
+            village_name = #{villageName},
+            village_introduce = #{villageIntroduce},
+            image_code = #{imageCode},
+            province_code = #{provinceCode},
+            city_code = #{cityCode},
+            area_code = #{areaCode},
+            address = #{address},
+            update_time = now(),
+            update_name = #{lastModifiedBy},
+            version  = version + 1
+        where village_code = #{villageCode}
+          and version = #{version}
+    </update>
+
+    <!--删除乡村-->
+    <update id="deleteVillage" parameterType="com.xzsd.pc.village.entity.VillageInfo">
+        update t_village
+        set
+        is_deleted= 1,
+        update_time = now(),
+        update_name  = #{Id},
+        version = version + 1
+        where village_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询省市区下拉列表-->
+    <select id="listArea" parameterType="java.lang.String" resultType="com.xzsd.pc.store.entity.AreaInfo">
+        select
+          dict_value areaId,
+          dict_name areaName
+        from
+          t_dictionary
+        where
+          parent_code = #{parentCode}
+    </select>
+</mapper>

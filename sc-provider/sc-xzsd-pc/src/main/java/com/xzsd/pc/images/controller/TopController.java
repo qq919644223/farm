@@ -30,6 +30,7 @@ public class TopController {
      * @Author jintian
      * @Date 2020-08-22
      */
+    /*
     @PostMapping("uploadImage")
     public AppResponse uploadImage(){
         try{
@@ -38,6 +39,9 @@ public class TopController {
             return topService.uploadImage(userCode);
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
+
+     */
 }

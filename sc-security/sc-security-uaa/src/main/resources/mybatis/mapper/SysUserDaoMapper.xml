@@ -7,13 +7,13 @@
     <select id="getUserInfoByUsername" resultType="com.neusoft.oauth.entity.SysUser">
         SELECT
             t.user_code as id,
-            t.user_name as account,
+            t.user_acct as account,
             t.user_password as password,
-            t.name as name,
-            t.is_delete as locked
+            t.user_name as name,
+            t.is_deleted as locked
         FROM t_sys_user t
-        WHERE t.user_name = #{username}
-        AND t.is_delete = 0
+        WHERE t.user_acct = #{username}
+        AND t.is_deleted = 0
     </select>
 
 </mapper>
