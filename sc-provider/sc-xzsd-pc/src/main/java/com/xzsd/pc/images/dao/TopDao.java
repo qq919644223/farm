@@ -2,6 +2,7 @@ package com.xzsd.pc.images.dao;
 
 import com.xzsd.pc.images.entity.TopInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @ClassName topDao
@@ -16,5 +17,5 @@ public interface TopDao {
      * @param userCode
      * @return
      */
-    TopInfo getInfoByCode(String userCode);
+    TopInfo getInfoByCode(@Param("userCode") String userCode);
 }

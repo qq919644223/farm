@@ -24,10 +24,8 @@ public class TopService {
      * @Author jintian
      * @Date 2020-08-22
      */
-    /*
     public AppResponse uploadImage(String userCode){
         TopInfo topInfo = topDao.getInfoByCode(userCode);
+        return AppResponse.success("查询成功！",topInfo);
     }
-
-     */
 }

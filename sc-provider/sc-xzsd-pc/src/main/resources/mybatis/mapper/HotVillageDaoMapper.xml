@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.hotVillage.dao.HotVillageDao">
+    <!--校验序号或商品是否存在-->
+    <select id="countHotId" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo" resultType="int">
+        select count(village_code)
+        from t_hot_village
+        where is_deleted = 0
+        and (hot_id = #{hotId} or village_code = #{villageCode})
+        <if test="hotVillageCode != null and hotVillageCode != ''">
+            and hot_village_code != #{hotVillageCode}
+        </if>
+    </select>
+    <!--新增热门乡村-->
+    <insert id="saveHotVillage" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        insert into t_hot_village
+        (hot_code,
+         village_code,
+         hot_id,
+         is_deleted,
+         create_name,
+         create_time,
+         update_name,
+         update_time,
+         version)
+         values
+         (#{hotCode},
+          #{hotId},
+          #{isDeleted},
+          #{creatName},
+          now(),
+          #{creatName},
+          now(),
+          0)
+    </insert>
+    <!--修改热门乡村信息-->
+    <update id="updateHotVillage" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        update t_hot_village
+        set
+        hot_code     =   #{hotCode},
+        village_code =   #{villageCode},
+        hot_id       =   #{hotId},
+        version      =   version + 1
+        where hot_code = #{hotCode}
+        and version = #{version}
+    </update>
+    <!--查询热门乡村列表-->
+    <select id="listHotVillageByPage" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        select
+        a.hot_code          hotCode,
+        a.hot_id            hotId,
+        a.village_code      villageCode,
+        b.village_name      villageName,
+        b.village_introduce villageIntroduce,
+        a.version           version
+        from
+        t_hot_village a,t_village b
+        where a.village_code = b.village_code
+        and a.is_deleted = 0
+        and b.is_deleted = 0
+        <if test="villageCode != null and villageCode != ''">
+            and a.village_code like concat('%', #{villafgeCode}, '%')
+        </if>
+        <if test="villageName != null and villageName != ''">
+            and b.village_name like concat('%', #{villageName}, '%')
+        </if>
+        order by b.hot_id asc
+    </select>
+    <!--查询热门乡村详情-->
+    <select id="getHotVillageByHotCode" parameterType="java.lang.String" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        select
+        a.hot_id       hotId,
+        b.village_code villageCode,
+        b.village_name villageName
+        from
+        t_hot_village a,t_village b
+        where a.village_code = b.village_code
+        and a.hot_code = #{hotCode}
+        and a.is_deleted = 0
+    </select>
+    <!--删除热门乡村-->
+    <update id="deleteHotVillage" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        update t_hot_village
+        set
+        is_deleted = 1,
+        update_time = now(),
+        update_name = #{userId},
+        version = version + 1
+        where hot_code in
+        <foreach collection="listCode" index="index" item="hotCode" open="(" separator="," close=")">
+            #{hotCode}
+        </foreach>
+    </update>
+    <!--设置展示数量-->
+    <update id="saveShowNo" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        update t_dictionary
+        set
+        show_no = #{showNo},
+        update_time = now(),
+        update _name = #{userId},
+        version = version + 1
+        where type = 4
+        and version #{version}
+    </update>
+    <!--查询展示数量-->
+    <select id="getShowNo" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        select
+        show_no showNo,
+        version version
+        from t_dictionary
+        where type = 4
+    </select>
+</mapper>

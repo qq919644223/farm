@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @Date 2020-08-22
  */
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/user")
 public class TopController {
 
     private static final Logger logger = LoggerFactory.getLogger(TopController.class);
@@ -30,18 +30,16 @@ public class TopController {
      * @Author jintian
      * @Date 2020-08-22
      */
-    /*
-    @PostMapping("uploadImage")
+    @PostMapping("getUserUrl")
     public AppResponse uploadImage(){
         try{
             //获取当前登录用户id
             String userCode = SecurityUtils.getCurrentUserId();
             return topService.uploadImage(userCode);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            logger.error("顶部栏查询错误",e);
+            System.out.println(e.toString());
+            throw e ;
         }
     }
-
-     */
 }

@@ -1,27 +1,35 @@
-package com.xzsd.pc.images.entity;
+package com.xzsd.pc.hotVillage.entity;
 
 /**
- * @Description 用户实体类（顶部导航栏）
- * @Author jintian
- * @Date 2020-08-22
+ * @Description 热门乡村实体类
+ * @author jintian
+ * @date 2020-08-23
  */
-public class TopInfo {
+public class HotVillageInfo {
     /**
-     * 用户编号
+     * 热门乡村编号
      */
-    private String userCode;
+    private String hotCode;
     /**
-     * 用户姓名
+     * 乡村编号
      */
-    private String userName;
+    private String villageCode;
     /**
-     * 头像路径
+     * 乡村名称
      */
-    private String imagePath;
+    private String villageName;
     /**
-     * 角色
+     * 乡村介绍
      */
-    private String role;
+    private String villageIntroduce;
+    /**
+     * 排序序号
+     */
+    private int hotId;
+    /**
+     * 展示数量
+     */
+    private int showNo;
     /**
      * 作废标记 0为存在，1为作废
      */
@@ -47,20 +55,28 @@ public class TopInfo {
      */
     private String version;
 
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
+    public void setHotCode(String hotCode) {
+        this.hotCode = hotCode;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setVillageName(String villageName) {
+        this.villageName = villageName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setVillageIntroduce(String villageIntroduce) {
+        this.villageIntroduce = villageIntroduce;
+    }
+
+    public void setHotId(int hotId) {
+        this.hotId = hotId;
+    }
+
+    public void setShowNo(int showNo) {
+        this.showNo = showNo;
     }
 
     public void setIsDeleted(int isDeleted) {
@@ -87,20 +103,28 @@ public class TopInfo {
         this.version = version;
     }
 
-    public String getUserCode() {
-        return userCode;
+    public String getHotCode() {
+        return hotCode;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getVillageCode() {
+        return villageCode;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getVillageName() {
+        return villageName;
     }
 
-    public String getRole() {
-        return role;
+    public String getVillageIntroduce() {
+        return villageIntroduce;
+    }
+
+    public int getHotId() {
+        return hotId;
+    }
+
+    public int getShowNo() {
+        return showNo;
     }
 
     public int getIsDeleted() {
