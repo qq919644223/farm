@@ -174,11 +174,12 @@
     <!--查询省市区下拉列表-->
     <select id="listArea" parameterType="java.lang.String" resultType="com.xzsd.pc.store.entity.AreaInfo">
         select
-          dict_value areaId,
-          dict_name areaName
+          dic_code areaId,
+          dic_name areaName
         from
           t_dictionary
         where
           parent_code = #{parentCode}
+        order by dic_code
     </select>
 </mapper>
