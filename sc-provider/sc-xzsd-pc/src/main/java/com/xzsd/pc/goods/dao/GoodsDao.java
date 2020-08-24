@@ -106,7 +106,7 @@ public interface GoodsDao {
      * @param lastClassCode
      * @return
      */
-    List<GoodsClassInfo> getSecondClass(String lastClassCode);
+    List<GoodsClassInfo> getSecondClass(@Param("lastClassCode") String lastClassCode);
 
 
 
