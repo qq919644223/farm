@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.app.goods.dao.GoodsDao">
+    <!--产品评价信息集合-->
+    <resultMap id="GoodsEvaluatesMap" type="com.xzsd.app.goods.entity.GoodsEvaluates">
+        <id column="appraise_code" property="appraiseCode" jdbcType="VARCHAR" />
+        <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+        <result column="user_acct" property="userAcct" jdbcType="VARCHAR" />
+        <result column="appraise_detail" property="appraiseDetai" jdbcType="VARCHAR" />
+        <result column="a_level" property="appraiseLevel" jdbcType="VARCHAR"/>
+        <result column="goods_code" property="goodsCode" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--获取商品信息-->
+    <select id="getGoods" parameterType="java.lang.String" resultType="com.xzsd.app.goods.entity.GoodsInfo">
+       select
+         goods_code goodsCode,
+         goods_name goodsName,
+         goods_introduce goodsIntroduce,
+         sale_price salePrice,
+         image_path imagePath,
+         a_level appraiseLeve,
+         sum_sale orderSum,
+         version version
+       from
+         t_goods
+       where
+         goods_code = #{goodsCode}
+       and
+         is_deleted = 0
+    </select>
+
+    <!--查询产品评价列表-->
+    <select id="listGoodsEvaluatesByPage" parameterType="com.xzsd.app.goods.entity.GoodsEvaluates" resultMap="GoodsEvaluatesMap">
+        select
+        b.user_acct,
+        a.appraise_detail,
+        a.a_level,
+        a.create_time,
+        a.user_code
+        from
+        t_goods_appraise a,t_sys_user b
+        where
+        a.user_code = b.user_code
+        and
+        a.is_deleted = 0
+        and
+        a.goods_code = #{goodsCode}
+        <if test="appraiseLevel == 1">
+            and (a.a_level = 0 or a.a_level = 1)
+        </if>
+        <if test="appraiseLevel == 3">
+            and (a.a_level = 2 or a.a_level = 3)
+        </if>
+        <if test="appraiseLevel == 5">
+            and (a.a_level = 4 or a.a_level = 5)
+        </if>
+    </select>
+
+</mapper>
