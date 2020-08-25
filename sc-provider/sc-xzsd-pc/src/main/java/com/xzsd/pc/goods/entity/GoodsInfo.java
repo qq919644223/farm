@@ -60,6 +60,14 @@ public class GoodsInfo {
      */
     private String goodsAddress;
     /**
+     * 站点编码
+     */
+    private String storeCode;
+    /**
+     * 站点名称
+     */
+    private String storeName;
+    /**
      * 产品的状态
      */
     private String goodsState;
@@ -213,6 +221,22 @@ public class GoodsInfo {
 
     public void setGoodsAddress(String goodsAddress) {
         this.goodsAddress = goodsAddress;
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public int getIsDeleted() {

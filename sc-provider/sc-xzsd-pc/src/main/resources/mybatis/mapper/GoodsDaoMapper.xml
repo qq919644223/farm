@@ -15,6 +15,7 @@
          cost_price,
          sale_price,
          stock,
+         store_code,
          goods_address,
          quality_date,
          image_code,
@@ -39,6 +40,7 @@
         #{salePrice},
         #{stock},
         #{goodsAddress},
+        #{storeCode},
         #{qualityDate},
         #{imagePath},
         5,
@@ -68,6 +70,8 @@
              a.stock stock,
              a.image_code imagePath,
              a.goods_address goodsAddress,
+             a.store_code storeCode,
+             b.store_name storeName,
              a.quality_date qualityDate,
              a.audit audit,
              a.create_time createTime,
@@ -76,6 +80,8 @@
              a.update_name updateName,
              a.version version
          from t_goods a
+         LEFT JOIN t_store b
+         on a.store_code = b.store_code
          where a.goods_code = #{goodsCode}
          and a.is_deleted = 0
     </select>
@@ -97,6 +103,8 @@
         a.stock stock,
         a.image_code imagePath,
         a.goods_address goodsAddress,
+        a.store_code storeCode,
+        b.store_name storeName,
         a.quality_date qualityDate,
         a.audit audit,
         a.is_deleted isDeleted,
@@ -105,9 +113,10 @@
         a.update_time updateTime,
         a.update_name updateName,
         a.version version
-        from
-        t_goods a
-        where a.is_deleted = 0
+        from t_goods a
+        Left JOIN t_store b
+        on a.store_code = b.store_code
+        where  a.is_deleted = 0
         <if test="goodsState != null and goodsState != ''">
             and a.goods_state like concat('%', #{goodsState}, '%')
         </if>
@@ -162,6 +171,7 @@
          stock = #{stock},
          image_code = #{imagePath},
          goods_address = #{goodsAddress},
+         store_code = #{storeCode},
          quality_date = #{qualityDate},
          update_name = #{updateName},
          update_time = now(),
@@ -230,8 +240,18 @@
         from t_goods_class a
         where a.is_deleted = 0
         and a.last_class_code = #{lastClassCode}
-        order by
-        create_time
+        order by create_time
+        desc
+    </select>
+
+    <!--查询所有站点-->
+    <select id="getAllStore" parameterType="com.xzsd.pc.store.entity.StoreInfo" resultType="com.xzsd.pc.store.entity.StoreInfo">
+        select
+            a.store_name storeName,
+            a.store_code storeCode
+        from t_store a
+        where a.is_deleted = 0
+        order by create_time
         desc
     </select>
 </mapper>

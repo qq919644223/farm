@@ -7,6 +7,7 @@ import com.neusoft.util.StringUtil;
 import com.xzsd.pc.goods.dao.GoodsDao;
 import com.xzsd.pc.goods.entity.GoodsInfo;
 import com.xzsd.pc.goodsclass.entity.GoodsClassInfo;
+import com.xzsd.pc.store.entity.StoreInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -185,5 +186,15 @@ public class GoodsService {
         return AppResponse.success("查询列表成功！", classSecondList);
     }
 
-
+    /**
+     * 查询所有的站点
+     * @author zhong
+     * @date 2020-08-25
+     * @param storeInfo
+     * @return
+     */
+    public AppResponse getAllStore(StoreInfo storeInfo) {
+        List<StoreInfo> storeInfoList = goodsDao.getAllStore(storeInfo);
+        return AppResponse.success("查询列表成功！",storeInfoList);
+    }
 }
