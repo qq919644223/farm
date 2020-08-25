@@ -17,6 +17,7 @@
     <insert id="saveStore" parameterType="com.xzsd.pc.store.entity.StoreInfo">
         insert into t_store
         (
+         village_code,
          store_code,
          store_name,
          user_code,
@@ -35,6 +36,7 @@
          )
         values
         (
+          #{villageCode},
           #{storeCode},
           #{storeName},
           #{userCode},
@@ -61,6 +63,7 @@
         a.address address,
         b.user_name userName,
         b.user_acct userAcct,
+        a.village_code villageCode,
         a.version version
         from t_store a
         left join
@@ -106,6 +109,7 @@
          d.dict_name cityName,
          e.dict_name areaName,
          a.license_code licenseCode,
+         a.village_code villageCode,
          a.version version
        from
          t_store a
@@ -135,6 +139,7 @@
             user_code = #{userCode},
             license_code = #{licenseCode},
             address = #{address},
+            village_code = #{villageCode},
             update_time = now(),
             update_name = #{lastModifiedBy},
             version  = version + 1
@@ -142,7 +147,7 @@
           and version = #{version}
     </update>
 
-    <!--查询输入的门店编号中是否有未完成的订单-->
+    <!--查询输入的站点编号中是否有未完成的订单-->
     <select id="listOrder" resultType="java.lang.String">
         select distinct
         store_code

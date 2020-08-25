@@ -10,6 +10,10 @@ public class StoreInfo {
      */
     private int pageNum;
     /**
+     * 乡村编码
+     */
+    private String villageCode;
+    /**
      * 站点编号
      */
     private String storeCode;
@@ -119,6 +123,14 @@ public class StoreInfo {
 
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
+    }
+
+    public String getVillageCode() {
+        return villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
     }
 
     public String getStoreCode() {
