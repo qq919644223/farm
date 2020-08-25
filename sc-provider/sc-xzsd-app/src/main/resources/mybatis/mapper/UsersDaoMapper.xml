@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xzsd.app.client.customer.dao.UserDao">
+<mapper namespace="com.xzsd.app.customer.entity.UserInfo">
 
     <!--检验新增或修改的用户的账号和手机号码是否存在-->
-    <select id="countUsers" parameterType="com.xzsd.app.client.customer.entity.UserInfo" resultType="int">
+    <select id="countUsers" parameterType="com.xzsd.app.customer.entity.UserInfo" resultType="int">
         select count(user_acct)
         from t_sys_user
         where is_deleted = 0
@@ -13,7 +13,7 @@
         </if>
     </select>
     <!--获取用户信息-->
-    <select id="getUserById" parameterType="java.lang.String" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.xzsd.app.customer.entity.UserInfo">
         select
             user_code userCode,
             user_name userName,
@@ -26,7 +26,7 @@
     </select>
 
     <!--注册用户-->
-    <insert id="userRegister" parameterType="com.xzsd.app.client.customer.entity.UserInfo">
+    <insert id="userRegister" parameterType="com.xzsd.app.customer.entity.UserInfo">
         insert into t_sys_user
         (user_code,
         user_acct,
@@ -59,7 +59,7 @@
         )
     </insert>
     <!--注册用户信息到客户表-->
-    <insert id="saveUserToCus" parameterType="com.xzsd.app.client.customer.entity.UserInfo">
+    <insert id="saveUserToCus" parameterType="com.xzsd.app.customer.entity.UserInfo">
         insert into t_customer
         (user_code,
         invite_code,
@@ -76,7 +76,7 @@
         )
     </insert>
 
-    <select id="getUser" parameterType="java.lang.String" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+    <select id="getUser" parameterType="java.lang.String" resultType="com.xzsd.app.customer.entity.UserInfo">
         select
         user_password userPassword
         from
@@ -85,7 +85,7 @@
         user_code = #{userCode}
     </select>
     <!--修改密码-->
-    <update id="updateUserPassword" parameterType="com.xzsd.app.client.customer.entity.UserInfo" >
+    <update id="updateUserPassword" parameterType="com.xzsd.app.customer.entity.UserInfo" >
         update t_sys_user
            set user_password = #{userNewPassword},
                update_time = now(),
@@ -95,7 +95,7 @@
     </update>
 
     <!--获取客户信息-->
-    <select id="getMysef" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+    <select id="getMysef" resultType="com.xzsd.app.customer.entity.UserInfo">
         select
         a.user_code userCode,
         a.user_name userName,
