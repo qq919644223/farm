@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.app.client.customer.dao.UserDao">
+
+    <!--检验新增或修改的用户的账号和手机号码是否存在-->
+    <select id="countUsers" parameterType="com.xzsd.app.client.customer.entity.UserInfo" resultType="int">
+        select count(user_acct)
+        from t_sys_user
+        where is_deleted = 0
+        and (user_acct = #{userAcct} or phone = #{phone})
+        <if test="userCode != null and userCode != ''">
+            and user_code != #{userCode}
+        </if>
+    </select>
+    <!--获取用户信息-->
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+        select
+            user_code userCode,
+            user_name userName,
+            user_acct userAcct,
+            user_password userPassword,
+            version version
+        from t_sys_user
+        where user_code = #{userId}
+        and is_deleted = 0
+    </select>
+
+    <!--注册用户-->
+    <insert id="userRegister" parameterType="com.xzsd.app.client.customer.entity.UserInfo">
+        insert into t_sys_user
+        (user_code,
+        user_acct,
+        user_password,
+        user_name,
+        sex,
+        phone,
+        email,
+        id_card,
+        role,
+        image_path,
+        is_deleted,
+        create_time,
+        version
+        )
+        values
+        (#{userCode},
+        #{userAcct},
+        #{userPassword},
+        #{userName},
+        #{sex},
+        #{phone},
+        #{email},
+        #{idCard},
+        2,
+        #{imagePath},
+        #{isDeleted},
+        now(),
+        0
+        )
+    </insert>
+    <!--注册用户信息到客户表-->
+    <insert id="saveUserToCus" parameterType="com.xzsd.app.client.customer.entity.UserInfo">
+        insert into t_customer
+        (user_code,
+        invite_code,
+        is_deleted,
+        create_time,
+        version
+        )
+        values
+        (#{userCode},
+        #{inviteCode},
+        #{isDeleted},
+        now(),
+        0
+        )
+    </insert>
+
+    <select id="getUser" parameterType="java.lang.String" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+        select
+        user_password userPassword
+        from
+        t_sys_user
+        where
+        user_code = #{userCode}
+    </select>
+    <!--修改密码-->
+    <update id="updateUserPassword" parameterType="com.xzsd.app.client.customer.entity.UserInfo" >
+        update t_sys_user
+           set user_password = #{userNewPassword},
+               update_time = now(),
+               update_name = #{updateName},
+               version     = version + 1
+         where user_code = #{userCode}
+    </update>
+
+    <!--获取客户信息-->
+    <select id="getMysef" resultType="com.xzsd.app.client.customer.entity.UserInfo">
+        select
+        a.user_code userCode,
+        a.user_name userName,
+        a.image_path imagePath,
+        c.store_name storeName,
+        c.store_code storeCode,
+        b.invite_code inviteCode,
+        CONCAT_WS('-',d.dic_name,e.dic_name,f.dic_name,c.address) address,
+        a.role role
+        from
+        t_sys_user a
+        LEFT JOIN t_customer b
+        on a.user_code = b.user_code
+        LEFT JOIN t_store c
+        on b.invite_code = c.invite_code
+        LEFT JOIN t_dictionary d
+        on c.province_code = d.dic_code
+        LEFT JOIN t_dictionary e
+        on c.city_code = e.dic_code
+        LEFT JOIN t_dictionary f
+        on c.area_code = f.dic_code
+        where b.user_code = #{userId}
+    </select>
+
+</mapper>
