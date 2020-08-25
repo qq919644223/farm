@@ -57,4 +57,52 @@
         </if>
     </select>
 
+    <!--查询商品一级分类列表-->
+    <select id="getFirstClass" parameterType="com.xzsd.app.goods.entity.GoodsClassInfo" resultType="com.xzsd.app.goods.entity.GoodsClassInfo">
+        select
+            a.class_name classFirstName,
+            a.class_code classFirstCode,
+            a.version version
+        from t_goods_class a
+        where a.is_deleted = 0
+        and a.last_class_code is null
+        order by create_time desc
+    </select>
+
+    <!--二级分类商品的Map-->
+    <resultMap id="getSecondClass" type="com.xzsd.app.goods.entity.GoodsClassInfo">
+        <id column="class_code" property="classSecondCode" jdbcType="VARCHAR" />
+        <id column="class_name" property="classSecondName" jdbcType="VARCHAR" />
+        <collection property="classSecondGoodsList" ofType="com.xzsd.app.goods.entity.ClassSecondList" select="selectGoods" column="class_code">
+            <id column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+            <id column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+            <id column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+            <id column="sale_price" property="salePrice" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询商品二级分类和商品-->
+    <select id="getSecondClass" resultMap="getSecondClass">
+        select
+            class_name,
+            class_code
+        from t_goods_class
+        where is_deleted = 0
+        and last_class_code = #{lastClassCode}
+        order by
+        create_time desc
+    </select>
+    <select id="selectGoods" parameterType="com.xzsd.app.goods.entity.GoodsClassInfo" resultType="com.xzsd.app.goods.entity.GoodsClassInfo">
+        select
+            goods_code goodsCode,
+            goods_name goodsName,
+            image_url imageUrl,
+            sale_price salePrice
+        from t_goods
+        where class_second_code = #{classSecondCode}
+        and is_deleted = 0
+        and goods_state = 2
+        order by
+        create_time desc
+    </select>
+
 </mapper>

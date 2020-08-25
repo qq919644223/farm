@@ -1,10 +1,12 @@
 package com.xzsd.app.goods.controller;
 
 import com.neusoft.core.restful.AppResponse;
+import com.xzsd.app.goods.entity.GoodsClassInfo;
 import com.xzsd.app.goods.entity.GoodsEvaluates;
 import com.xzsd.app.goods.service.GoodsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,5 +59,39 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 查询查询商品一级分类接口
+     * @author zhong
+     * @date 2020-08-25
+     * @param goodsClassInfo
+     * @return
+     */
+    @RequestMapping(value = "getFirstClass")
+    public AppResponse getFirstClass(GoodsClassInfo goodsClassInfo) {
+        try {
+            return goodsService.getFirstClass(goodsClassInfo);
+        } catch (Exception e) {
+            logger.error("一级分类查询错误", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
+
+    /**
+     * 查询商品二级分类
+     * @author zhong
+     * @date 2020-08-25
+     * @return
+     */
+    @RequestMapping(value = "getSecondClass")
+    public AppResponse getSecondClass(String lastClassCode) {
+        try {
+            return goodsService.getSecondClass(lastClassCode);
+        } catch (Exception e) {
+            logger.error("二级分类查询错误", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
 
 }

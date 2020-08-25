@@ -1,5 +1,6 @@
 package com.xzsd.app.goods.dao;
 
+import com.xzsd.app.goods.entity.GoodsClassInfo;
 import com.xzsd.app.goods.entity.GoodsEvaluates;
 import com.xzsd.app.goods.entity.GoodsInfo;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,22 @@ public interface GoodsDao {
      * @return 产品评价列表
      */
     List<GoodsEvaluates> listGoodsEvaluatesByPage(GoodsEvaluates goodsEvaluates);
+
+    /**
+     * 一级分类
+     * @author zhong
+     * @date 2020-08-25
+     * @param goodsClassInfo
+     * @return
+     */
+    List<GoodsClassInfo> getFirstClass(GoodsClassInfo goodsClassInfo);
+
+    /**
+     * 二级分类
+     * @author zhong
+     * @date 2020-08-25
+     * @param lastClassCode
+     * @return
+     */
+    List<GoodsClassInfo> getSecondClass(@Param("lastClassCode") String lastClassCode);
 }

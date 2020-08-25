@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.neusoft.core.restful.AppResponse;
 import com.xzsd.app.goods.dao.GoodsDao;
+import com.xzsd.app.goods.entity.GoodsClassInfo;
 import com.xzsd.app.goods.entity.GoodsEvaluates;
 import com.xzsd.app.goods.entity.GoodsInfo;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,29 @@ public class GoodsService {
         //包装Page对象
         PageInfo<GoodsEvaluates> pageData = new PageInfo<GoodsEvaluates>(goodsEvaluatesList);
         return AppResponse.success("查询成功",pageData);
+    }
+
+
+    /**
+     * 查询一级分类接口
+     * @date 2020-08-25
+     * @author zhong
+     * @param goodsClassInfo
+     * @return
+     */
+    public AppResponse getFirstClass(GoodsClassInfo goodsClassInfo) {
+        List<GoodsClassInfo> classFirstList = goodsDao.getFirstClass(goodsClassInfo);
+        return AppResponse.success("查询列表成功！", classFirstList);
+    }
+    /**
+     * 查询二级分类及商品接口
+     * @date 2020-08-25
+     * @author zhong
+     * @param lastClassCode
+     * @return
+     */
+    public AppResponse getSecondClass(String lastClassCode) {
+        List<GoodsClassInfo> classSecondList = goodsDao.getSecondClass(lastClassCode);
+        return AppResponse.success("查询列表成功！", classSecondList);
     }
 }
