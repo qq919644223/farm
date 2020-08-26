@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.app.clientOrder.dao.ClientOrderDao">
+
+    <!--新增订单评价-->
+    <insert id="saveOrdersAppraise" useGeneratedKeys="true" parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into t_goods_appraise
+        (
+        appraise_code,
+        order_code,
+        goods_code,
+        appraise_detail,
+        a_level,
+        user_code,
+        is_deleted,
+        create_time,
+        create_name,
+        version)
+        values
+        <foreach collection="goodsAppraiseInfoList" item="appraise" separator="," index="index" >
+            (
+            #{appraise.appraiseCode},
+            #{appraise.orderCode},
+            #{appraise.goodsCode},
+            #{appraise.appraiseDetail},
+            #{appraise.appraiseLevel},
+            #{appraise.userId},
+            #{appraise.isDeleted},
+            #{appraise.createTime},
+            #{appraise.userId},
+            #{appraise.version}
+            )
+        </foreach>
+    </insert>
+    <!--查询商品的评价星级-->
+    <select id="countLevel" parameterType="java.util.List" resultType="com.xzsd.app.clientOrder.entity.ClientOrderInfo">
+        select
+            ROUND(avg(a_level),1) avgLevel,
+            goods_code goodsCode
+        from t_goods_appraise
+        where goods_code in
+        <foreach item="item" index="index" collection="listGoods" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY
+        goods_code
+    </select>
+    <!--更新商品的评价星级-->
+    <update id="updateGoodsLevel" parameterType="java.util.List">
+        <foreach item="item" collection="levelList" separator=";" >
+            update t_goods
+            set
+                a_level = #{item.avgLevel}
+            where goods_code = #{item.goodsCode}
+        </foreach>
+    </update>
+
+
+    <!--                                              订单                                    -->
+    <!--修改客户端订单状态-->
+    <update id="updateOrderState" parameterType="com.xzsd.app.clientOrder.entity.ClientOrderInfo">
+        update t_order
+        set
+            order_state = #{orderState},
+            update_time = now(),
+            update_name = #{userId},
+            version = version + 1
+        where order_code = #{orderCode}
+        and version = #{version}
+    </update>
+    <!--查询对应订单编码里的商品编码和商品的购买数量-->
+    <select id="getOrder" parameterType="java.lang.String" resultType="com.xzsd.app.clientOrder.entity.ClientOrderInfo">
+        select
+            a.goods_code goodsCode,
+            a.order_sum orderSum,
+            b.stock stock,
+            b.sum_sale sumSale
+        from t_order_detail a
+        LEFT JOIN t_goods b
+        on a.goods_code = b.goods_code
+        where
+        a.order_code = #{orderCode}
+    </select>
+    <!--更新商品库存-->
+    <update id="updateStock" parameterType="java.util.List">
+        <foreach item="item" collection="clientOrderInfoList" separator=";" >
+            update t_goods
+            set stock = #{item.stock} + #{item.orderSum}
+            where goods_code = #{item.goodsCode}
+        </foreach>
+    </update>
+    <!--更新商品销售量-->
+    <update id="updateSumSale" parameterType="java.util.List">
+        <foreach item="item" collection="clientOrderInfoList" separator=";" >
+            update t_goods
+            set
+            sum_sale = #{item.sumSale} + #{item.orderSum}
+            where goods_code = #{item.goodsCode}
+        </foreach>
+    </update>
+
+    <!--                                     订单详情                       -->
+    <!--订单对应商品的Map-->
+    <resultMap id="getOrderDetail" type="com.xzsd.app.clientOrder.entity.ClientOrderInfo">
+        <id column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="order_money" property="orderMoney" jdbcType="VARCHAR" />
+        <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+        <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
+        <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
+        <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <collection property="goodsList" ofType="com.xzsd.app.clientOrder.entity.GoodsInfo">
+            <id column="goodsCode" property="goodsCode" jdbcType="VARCHAR" />
+            <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+            <result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+            <result column="salePrice" property="salePrice" jdbcType="VARCHAR" />
+            <result column="orderSum" property="orderSum" jdbcType="VARCHAR" />
+            <result column="goodsIntroduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询订单详情-->
+    <select id="getOrdersByCode" parameterType="java.lang.String" resultMap="getOrderDetail">
+        select
+            a.order_code,
+            a.order_money,
+            a.order_state,
+            a.sum_goods,
+            a.store_code,
+            d.address,
+            a.create_time,
+            a.version,
+            b.goods_code goodsCode,
+            c.goods_name goodsName,
+            c.image_url imagePath,
+            c.sale_price salePrice,
+            c.goods_introduce goodsIntroduce,
+            b.order_sum orderSum
+        from t_order a
+        LEFT JOIN t_order_detail b
+        on a.order_code = b.order_code
+        LEFT JOIN t_goods c
+        on b.goods_code = c.goods_code
+        LEFT JOIN t_store d
+        on a.store_code = d.store_code
+        where a.is_deleted = 0
+        and a.order_code = #{orderCode}
+    </select>
+
+    <!--                                                订单列表                                                          -->
+    <!--客户查询订单列表-->
+    <resultMap id="getOrdersList" type="com.xzsd.app.clientOrder.entity.ClientOrderInfo">
+        <id property="orderCode" column="order_code" jdbcType="VARCHAR"/>
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="orderState" column="order_state" jdbcType="VARCHAR"/>
+        <result property="orderMoney" column="order_money" jdbcType="VARCHAR"/>
+        <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <collection property="goodsList" ofType="com.xzsd.app.clientOrder.entity.GoodsInfo" select="selectGoods" column="order_code">
+            <id property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+            <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+            <result property="imagePath" column="image_url" jdbcType="VARCHAR"/>
+            <result property="salePrice" column="sale_price" jdbcType="VARCHAR"/>
+            <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
+            <result column="goods_introduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <select id="getOrdersList" parameterType="com.xzsd.app.clientOrder.entity.ClientOrderInfo" resultMap="getOrdersList">
+        select
+            a.order_code,
+            a.user_code,
+            a.order_state,
+            a.order_money,
+            a.sum_goods,
+            a.version
+        from t_order a
+        where a.is_deleted = 0
+        and a.user_code = #{userId}
+        <if test="orderState != null and orderState != '' and orderState == 7">
+            and a.order_state = 7
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 1 ">
+            and (a.order_state = 1
+            or a.order_state = 3)
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 3 ">
+            and (a.order_state = 1
+            or a.order_state = 3)
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 5">
+            and (a.order_state = 5
+                or a.order_state = 8)
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 8">
+            and (a.order_state = 5
+            or a.order_state = 8)
+        </if>
+        order by
+        a.create_time
+        desc
+    </select>
+    <select id="selectGoods" parameterType="com.xzsd.app.clientOrder.entity.GoodsInfo" resultType="com.xzsd.app.clientOrder.entity.GoodsInfo">
+		select
+            a.goods_code,
+            b.goods_name,
+            b.sale_price,
+            b.image_url imagePath,
+            b.goods_introduce,
+            a.order_sum
+		from t_order_detail a
+		LEFT JOIN t_goods b
+		on a.goods_code = b.goods_code
+		LEFT JOIN t_order c
+		on a.order_code = c.order_code
+		where a.order_code = #{orderCode}
+		order by
+		a.create_time
+		desc
+	</select>
+
+    <!--新增订单到订单表-->
+    <insert id="saveCartOrder" parameterType="com.xzsd.app.clientOrder.entity.CartOrderInfo">
+        insert into
+        t_order
+        (
+        order_code,
+        user_code,
+        order_money,
+        order_state,
+        store_code,
+        sum_goods,
+        is_deleted,
+        create_time,
+        create_name,
+        version
+        )
+        values
+        (
+        #{orderCode},
+        #{userId},
+        #{orderMoney},
+        7,
+        #{storeCode},
+        #{sumGoods},
+        0,
+        now(),
+        #{userId},
+        0
+        )
+    </insert>
+    <!--新增订单到订单详情表-->
+    <insert id="saveCartOrderDetail" useGeneratedKeys="true" parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        t_order_detail
+        (
+        detail_code,
+        order_code,
+        user_code,
+        goods_code,
+        order_sum,
+        cart_code,
+        is_deleted,
+        create_time,
+        create_name,
+        version
+        )
+        values
+        <foreach collection="cartOrderInfoList" item="order" separator="," index="index" >
+            (
+            #{order.detailCode},
+            #{order.orderCode},
+            #{order.userId},
+            #{order.goodsCode},
+            #{order.orderSum},
+            #{order.cartCode},
+            0,
+            #{order.createTime},
+            #{order.userId},
+            #{order.version}
+            )
+        </foreach>
+    </insert>
+
+    <!--删除对应商品的购物车-->
+    <update id="updateCartGoods" parameterType="com.xzsd.app.clientOrder.entity.CartOrderInfo">
+        update t_cart
+        set
+            is_deleted = 1,
+            update_time = now(),
+            update_name = #{userId},
+            version = version + 1
+        where cart_code in
+        <foreach item="item" index="index" collection="listCart" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询当前下单商品的库存-->
+    <select id="countGoodsStock" parameterType="java.util.List" resultType="java.lang.Integer">
+        select
+        stock
+        from t_goods
+        where is_deleted = 0
+        and goods_code in
+        <foreach item="item" index="index" collection="listGoods" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--更新商品库存-->
+    <update id="updateGoodsStock" parameterType="java.util.List">
+        <foreach item="item" collection="cartOrderInfoList" separator=";" >
+            update t_goods
+            set
+            stock = #{item.stock} - #{item.orderSum}
+            where goods_code = #{item.goodsCode}
+        </foreach>
+    </update>
+
+    <!--新增评价json-->
+    <insert id="saveAppraise" parameterType="com.xzsd.app.clientOrder.entity.AppraiseOrderInfo">
+        insert into t_goods_appraise
+        (
+        appraise_code,
+        user_code,
+        order_code,
+        goods_code,
+        appraise_detail,
+        a_level,
+        is_deleted,
+        create_time,
+        create_name,
+        version
+        )
+        values
+        <foreach collection="appraiseInfoList" index="index" item="item" open="" separator="," close="">
+            (
+            #{item.appraiseCode},
+            #{userCode},
+            #{orderCode},
+            #{item.goodsCode},
+            #{item.appraiseDetail},
+            #{item.appraiseLevel},
+            #{isDeleted},
+            now(),
+            #{createName},
+            0
+            )
+        </foreach>
+    </insert>
+
+    <!--查询商品的评价星级-->
+    <select id="countGoodsLevel" parameterType="java.util.List" resultType="java.lang.String">
+        select
+        avg(a_level)
+        from
+        t_goods_appraise
+        where
+        goods_code in
+        <foreach item="item" index="index" collection="appraiseInfoList" open="(" separator="," close=")">
+            #{item.goodsCode}
+        </foreach>
+        GROUP BY
+        goods_code
+    </select>
+    <!--更新商品的评价星级-->
+    <update id="updateLevel" parameterType="java.util.List">
+        <foreach item="item" collection="appraiseInfoList" separator=";" >
+            update t_goods
+            set
+            a_level = #{item.avgLevel}
+            where goods_code = #{item.goodsCode}
+        </foreach>
+    </update>
+</mapper>
