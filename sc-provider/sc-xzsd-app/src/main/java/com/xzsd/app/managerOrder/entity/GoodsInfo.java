@@ -2,7 +2,7 @@ package com.xzsd.app.managerOrder.entity;
 
 /**
  * 商品实体类
- * 20200324
+ * 2020-08-26
  * zhong
  */
 public class GoodsInfo {

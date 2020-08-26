@@ -9,13 +9,13 @@ import java.util.List;
 
 /**
  * @author  zhong
- * @date 2020-04-20
+ * @date 2020-08-26
  */
 @Mapper
 public interface ManagerOrderDao {
     /**
      * 店长修改订单状态
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @author zhong
      * @param orderCode
      * @param orderState
@@ -27,7 +27,7 @@ public interface ManagerOrderDao {
     /**
      * 店长查询订单详情
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -36,7 +36,7 @@ public interface ManagerOrderDao {
     /**
      * 店长查询订单列表
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param managerOrderInfo
      * @return
      */
