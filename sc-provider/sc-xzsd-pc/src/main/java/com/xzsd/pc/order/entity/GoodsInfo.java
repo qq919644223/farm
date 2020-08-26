@@ -2,7 +2,7 @@ package com.xzsd.pc.order.entity;
 
 /**
  * 商品实体类
- * 20200324
+ * 2020-08-26
  * zhong
  * @author 12533
  */

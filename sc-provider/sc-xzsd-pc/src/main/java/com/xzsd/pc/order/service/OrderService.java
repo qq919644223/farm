@@ -24,7 +24,7 @@ public class OrderService {
     /**
      * 查询订单列表  分页
      * @author zhong
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderInfo
      * @return
      */
@@ -45,7 +45,7 @@ public class OrderService {
     /**
      * 查询订单详情
      * @author zhong
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -57,7 +57,7 @@ public class OrderService {
     /**
      * 修改订单状态
      * @author zhong
-     * @date 2020-04-12
+     * @date 2020-08-26
      * @param orderCode
      * @param userId
      * @return

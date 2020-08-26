@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 /**
  * 订单管理
  * @author jintian
- * @date 2020-04-06
+ * @date 2020-08-26
  */
 @RestController
 @RequestMapping("/order")
@@ -29,7 +29,7 @@ public class OrderController {
     /**
      * 查询订单列表 分页
      * @author jintian
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderInfo
      * @return
      */
@@ -47,7 +47,7 @@ public class OrderController {
     /**
      * 查询订单详情
      * @author jintian
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -65,7 +65,7 @@ public class OrderController {
     /**
      * 修改订单状态
      * @author jintian
-     * @date 2020-04-12
+     * @date 2020-08-26
      * @param orderCode
      * @param orderState
      * @param version
