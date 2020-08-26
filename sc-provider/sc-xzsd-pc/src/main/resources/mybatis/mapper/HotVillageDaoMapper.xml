@@ -7,8 +7,8 @@
         from t_hot_village
         where is_deleted = 0
         and (hot_id = #{hotId} or village_code = #{villageCode})
-        <if test="hotVillageCode != null and hotVillageCode != ''">
-            and hot_village_code != #{hotVillageCode}
+        <if test="hotCode != null and hotCode != ''">
+            and hot_code != #{hotCode}
         </if>
     </select>
     <!--新增热门乡村-->
@@ -25,11 +25,12 @@
          version)
          values
          (#{hotCode},
+          #{villageCode},
           #{hotId},
           #{isDeleted},
-          #{creatName},
+          #{createName},
           now(),
-          #{creatName},
+          #{updateName},
           now(),
           0)
     </insert>
@@ -59,12 +60,12 @@
         and a.is_deleted = 0
         and b.is_deleted = 0
         <if test="villageCode != null and villageCode != ''">
-            and a.village_code like concat('%', #{villafgeCode}, '%')
+            and a.village_code like concat('%', #{villageCode}, '%')
         </if>
         <if test="villageName != null and villageName != ''">
             and b.village_name like concat('%', #{villageName}, '%')
         </if>
-        order by b.hot_id asc
+        order by a.hot_id asc
     </select>
     <!--查询热门乡村详情-->
     <select id="getHotVillageByHotCode" parameterType="java.lang.String" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
@@ -97,10 +98,10 @@
         set
         show_no = #{showNo},
         update_time = now(),
-        update _name = #{userId},
+        update_name = #{updateName},
         version = version + 1
         where type = 4
-        and version #{version}
+        and version = #{version}
     </update>
     <!--查询展示数量-->
     <select id="getShowNo" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">

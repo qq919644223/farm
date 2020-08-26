@@ -65,8 +65,8 @@ public class HotVillageService {
             return AppResponse.success("序号小于等于0，请重新输入");
         }
         //校验排序序号是否存在
-        int counthotId = hotVillageDao.countHotId(hotVillageInfo);
-        if(counthotId != 0){
+        int countHotId = hotVillageDao.countHotId(hotVillageInfo);
+        if(countHotId != 0){
             return AppResponse.success("序号或乡村重复已存在,请重试！");
         }
         int count = hotVillageDao.updateHotVillage(hotVillageInfo);
