@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.supplier.dao.SupplierDao">
+    <!--校验供应商账号是否存在-->
+    <select id="countAcct" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo" resultType="int">
+        select count(user_acct)
+        from t_sys_user
+        where user_acct = #{userAcct}
+        and is_deleted = 0
+        <if test="userCode != null and userCode != ''">
+            and user_code != #{userCode}
+        </if>
+    </select>
+    <!--新增用户表供应商信息-->
+    <insert id="addSupplierToUser" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        insert into t_sys_user
+        (user_code,
+         user_name,
+         image_path,
+         user_acct,
+         user_password,
+         id_card,
+         role,
+         phone,
+         is_deleted,
+         create_name,
+         create_time,
+         update_name,
+         update_time,
+         version)
+         values
+         (#{userCode},
+          #{userName},
+          #{imagePath},
+          #{userAcct},
+          #{userPassword},
+          #{idCard},
+          #{role},
+          #{phone},
+          #{isDeleted},
+          #{createName},
+          now(),
+          #{updateName},
+          now(),
+          0)
+    </insert>
+    <!--新增司机信息-->
+    <insert id="addSupplier" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        insert into t_supplier
+        (user_code,
+         province_code,
+         city_code,
+         area_code,
+         is_deleted,
+         create_name,
+         create_time,
+         update_name,
+         update_time,
+         version)
+         values
+         (#{userCode},
+          #{provinceCode},
+          #{cityCode},
+          #{areaCode},
+          #{isDeleted},
+          #{createName},
+          now(),
+          #{updateName},
+          now(),
+          0)
+    </insert>
+    <!--查询供应商详情-->
+    <select id="getSupplierByCode" parameterType="java.lang.String" resultType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        select
+        a.user_code userCode,
+         a.user_name userName,
+         a.user_acct userAcct,
+         a.user_password userPassword,
+         a.image_path imagePath,
+         a.id_card idCard,
+         a.phone phone,
+         b.province_code provinceCode,
+         c.dic_name provinceName,
+         b.city_code cityCode,
+         d.dic_name cityName,
+         b.area_code areaCode,
+         e.dic_name areaName,
+         a.version userVersion,
+         b.version supplierVersion
+         from t_supplier b
+        left join t_sys_user a on b.user_code = a.user_code
+        left join t_dictionary c on b.province_code = c.dic_code
+        left join t_dictionary d on b.city_code = d.dic_code
+        left join t_dictionary e on b.area_code = e.dic_code
+        where b.user_code = #{userCode}
+        and b.is_deleted = 0
+    </select>
+    <!--查询用户密码-->
+    <select id="getUserPwd" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo" resultType="java.lang.String">
+        select user_password
+        from t_sys_user
+        where user_code = #{userCode}
+        and is_deleted = 0
+    </select>
+    <!--修改用户表供应商信息-->
+    <update id="updateUser" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        update t_sys_user
+        set
+            user_name          = #{userName},
+            user_acct          = #{userAcct},
+            user_password      = #{userPassword},
+            image_path         = #{imagePath},
+            id_card            = #{idCard},
+            phone              = #{phone},
+            update_time        = now(),
+            update_name        = #{updateName},
+            version            = version + 1
+        where user_code = #{userCode}
+        and version = #{userVersion}
+    </update>
+    <!--修改供应商表信息-->
+    <update id="updateSupplier" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        update t_supplier
+        set
+            province_code      = #{provinceCode},
+            city_code          = #{cityCode},
+            area_code          = #{areaCode},
+            update_time        = now(),
+            update_name        = #{updateName},
+            version            = #{supplierVersion}
+    </update>
+    <!--查询供应商列表-->
+    <select id="listSupplierByPage" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo" resultType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        select
+         b.user_code userCode,
+         a.user_name userName,
+         a.phone phone,
+         a.id_card idCard,
+         a.user_acct userAcct,
+         b.version version
+        from t_sys_user a,t_supplier b
+        where a.user_code = b.user_code
+        and b.is_deleted = 0
+        <if test="role == 2">
+            and b.area_code = (select area_code areaCode from t_store where user_code = #{roleCode})
+        </if>
+        <if test="userCode != null and userCode != ''">
+            and a.user_code like concat('%', #{userCode}, '%')
+        </if>
+        <if test="userName != null and userName != ''">
+            and a.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="provinceCode != null and provinceCode != ''">
+            and b.province_code = #{provinceCode}
+        </if>
+        <if test="cityCode != null and cityCode != ''">
+            and b.city_code = #{cityCode}
+        </if>
+        <if test="areaCode != null and areaCode != ''">
+            and b.area_code = #{areaCode}
+        </if>
+        order by b.user_code desc
+    </select>
+    <!--删除用户供应商信息-->
+    <update id="deleteUser" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        update t_sys_user
+        set
+        is_deleted = 1,
+        update_time = now(),
+        update_name = #{userId},
+        version = version + 1
+        where user_code in
+        <foreach item="userCode" index="index" collection="listCode" open="(" separator="," close=")">
+            #{userCode}
+        </foreach>
+    </update>
+    <!--删除供应商表信息-->
+    <update id="deleteSupplier" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
+        update t_supplier
+        set
+        is_deleted = 1,
+        update_time = now(),
+        update_name = #{userId},
+        version = version + 1
+        where user_code in
+        <foreach item="userCode" index="index" collection="listCode" open="(" separator="," close=")">
+            #{userCode}
+        </foreach>
+    </update>
+</mapper>
