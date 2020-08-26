@@ -1,137 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xzsd.pc.order.dao.OrderDao">
-    <!--查询订单详情-->
-    <select id="getOrderByOrderCode" parameterType="java.lang.String" resultType="com.xzsd.pc.order.entity.OrderDetailInfo">
+    <!--获取当前登录人的角色-->
+    <select id="getUserRole" parameterType="java.lang.String" resultType="java.lang.String">
         select
-        a.user_code userCode,
-        a.order_code orderCode,
-        a.goods_code goodsCode,
-        b.goods_name goodsName,
-        a.order_money orderMoney,
-        a.order_sum orderSum,
-        b.sale_price salePrice,
-        a.version version
-        from t_order_detail a
-        left join t_goods b on a.goods_code = b.goods_code
-        where a.order_code = #{orderCode}
-        and a.is_deleted = 0
+        IFNULL(MAX(role),null)
+        from
+        t_sys_user
+        where
+        user_code = #{userId}
     </select>
-    <!--管理员订单列表-->
-    <select id="listAdminOrderByPage" parameterType="com.xzsd.pc.order.entity.OrderInfo" resultType="com.xzsd.pc.order.entity.OrderInfo">
+
+    <!--查询订单列表-->
+    <select id="listOrderByPage" parameterType="com.xzsd.pc.order.entity.OrderInfo" resultType="com.xzsd.pc.order.entity.OrderInfo">
         select
         a.order_code orderCode,
         a.order_money orderMoney,
         a.order_state orderState,
         a.store_code storeCode,
-        b.user_name userName,
-        b.phone phone,
-        a.pay_time payTime,
+        c.user_name userName,
+        c.phone phone,
+        a.create_time createTime,
+        b.invite_code inviteCode,
+        a.update_time updateTime,
+        a.update_name updateName,
         a.version version
-        from t_order a, t_sys_user b
+        from t_customer b
+        LEFT JOIN t_order a
+        on a.user_code = b.user_code
+        LEFT JOIN t_sys_user c
+        on b.user_code = c.user_code
         where a.is_deleted = 0
-        and a.user_code = b.user_code
-        <if test="userName != null and userName != ''">
-            and b.user_name like concat('%', #{userName} '%')
-        </if>
         <if test="orderCode != null and orderCode != ''">
             and a.order_code like concat('%', #{orderCode}, '%')
         </if>
-        <if test="phone != null and phone != ''">
-            and b.phone like concat('%', #{phone}, '%')
-        </if>
-        <if test="orderState != null and orderState != ''">
-            and a.order_state = #{orderState}
-        </if>
-        <if test="startPayTime != null and startPayTime != ''">
-            and a.pay_time >= DATE_FORMAT(#{startPayTime},'%Y-%m-%d %h:%i:%S')
-        </if>
-        <if test="endPayTime != null and endPayTime != ''">
-            and a.pay_time &lt;= DATE_FORMAT(#{endPayTime},'%Y-%m-%d %h:%i:%S')
-        </if>
-        order by a.pay_time desc
-    </select>
-    <!--站长订单列表-->
-    <select id="listStoreOrderByPage" parameterType="com.xzsd.pc.order.entity.OrderInfo" resultType="com.xzsd.pc.order.entity.OrderInfo">
-        select
-        a.order_code orderCode,
-        a.order_money orderMoney,
-        a.order_state orderState,
-        a.store_code storeCode,
-        b.user_name userName,
-        b.phone phone,
-        a.pay_time payTime,
-        a.version version
-        from
-        t_order a,
-        t_sys_user b
-        where
-        a.is_deleted = 0
-        and a.user_code = b.user_code
-        and a.store_code in (
-        select
-        store_code
-        from
-        t_store
-        where
-        user_code = #{roleCode})
         <if test="userName != null and userName != ''">
-            and b.user_name like concat('%', #{userName} '%')
-        </if>
-        <if test="orderCode != null and orderCode != ''">
-            and a.order_code like concat('%', #{orderCode}, '%')
+            and c.user_name like concat('%', #{userName}, '%')
         </if>
         <if test="phone != null and phone != ''">
-            and b.phone like concat('%', #{phone}, '%')
+            and c.phone like concat('%', #{phone}, '%')
         </if>
         <if test="orderState != null and orderState != ''">
-            and a.order_state = #{orderState}
+            and a.order_state like concat('%', #{orderState}, '%')
         </if>
-        <if test="startPayTime != null and startPayTime != ''">
-            and a.pay_time >= DATE_FORMAT(#{startPayTime},'%Y-%m-%d %h:%i:%S')
+        <if test="startPayTime != null and startPayTime != '' and endPayTime != null and endPayTime != ''">
+            and a.create_time between DATE_FORMAT( #{startPayTime},'%Y-%m-%d %H:%i:%s') and DATE_FORMAT( #{endPayTime},'%Y-%m-%d %H:%i:%s')
         </if>
-        <if test="endPayTime != null and endPayTime != ''">
-            and a.pay_time &lt;= DATE_FORMAT(#{endPayTime},'%Y-%m-%d %h:%i:%S')
+        <if test="role != null and role != '' and role == 3">
+            and a.store_code in (select store_code from t_store where user_code = #{userId})
         </if>
-        order by a.pay_time desc
+        <if test="role != null and role != '' and role == 1">
+
+        </if>
     </select>
-    <!--查询订单相关商品购买数量-->
-    <select id="getListOrderDetail" parameterType="java.lang.String" resultType="com.xzsd.pc.order.entity.OrderDetailInfo">
+
+    <!--                                     订单详情                       -->
+    <!--订单对应商品的Map-->
+    <resultMap id="getOrderDetail" type="com.xzsd.pc.order.entity.OrderInfo">
+        <id column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="order_money" property="orderMoney" jdbcType="VARCHAR" />
+        <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
+        <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
+        <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <collection property="goodsList" ofType="com.xzsd.pc.order.entity.GoodsInfo">
+            <id column="goodsCode" property="goodsCode" jdbcType="VARCHAR" />
+            <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+            <result column="salePrice" property="salePrice" jdbcType="VARCHAR" />
+            <result column="orderSum" property="orderSum" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询订单详情-->
+    <select id="getOrderByOrderCode" parameterType="java.lang.String" resultMap="getOrderDetail">
         select
-        sum(order_sum) orderSum,
-        goods_code goodsCode
-        from t_order_detail
-        where is_deleted = 0
-        and order_code in
-        <foreach collection="listCode" item="orderCode" index="index" open="(" separator="," close=")">
-            #{orderCode}
-        </foreach>
-        group by goods_code
+            a.order_code,
+            a.order_money,
+            a.sum_goods,
+            b.user_code,
+            a.version,
+            b.goods_code goodsCode,
+            c.goods_name goodsName,
+            c.sale_price salePrice,
+            b.order_sum orderSum
+        from t_order a
+        LEFT JOIN t_order_detail b
+        on a.order_code = b.order_code
+        LEFT JOIN t_goods c
+        on b.goods_code = c.goods_code
+        LEFT JOIN t_store d
+        on a.store_code = d.store_code
+        where a.is_deleted = 0
+        and a.order_code = #{orderCode}
     </select>
-    <!--回滚商品库存-->
-    <update id="updateStock" parameterType="java.util.List">
-        <foreach collection="listOrderSum" item="item" separator=";">
-            update t_goods
-            set
-            stock = stock + #{item.orderSum}
-            where goods_code = #{item.goodsCode}
-        </foreach>
-    </update>
+
     <!--修改订单状态-->
     <update id="updateOrderState" parameterType="com.xzsd.pc.order.entity.OrderInfo">
         update t_order
         set
         order_state = #{orderState},
-        update_time       = now(),
-        update_name       = #{userId},
+        update_time = now(),
+        update_name = #{userId},
         version = version + 1
-        where order_code in
-        <foreach item="orderCode" index="index" collection="listCode" open="(" separator="," close=")">
-            #{orderCode}
+        where
+        order_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
         </foreach>
         and version in
-        <foreach item="version" index="index" collection="listVersion" open="(" separator="," close=")">
-            #{version}
+        <foreach item="item" index="index" collection="listVersion" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--查询修改的订单的状态-->
+    <select id="getOrderState" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        order_state
+        from t_order
+        where
+        order_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!--查询对应订单编码里的商品编码和商品的购买数量-->
+    <select id="getOrder" parameterType="java.util.List" resultType="com.xzsd.pc.order.entity.OrderInfo">
+        select
+        a.goods_code goodsCode,
+        a.order_sum orderSum,
+        b.stock stock
+        from t_order_detail a
+        LEFT JOIN t_goods b
+        on a.goods_code = b.goods_code
+        where
+        a.order_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!--更新商品库存-->
+    <update id="updateStock" parameterType="java.util.List">
+        <foreach item="item" collection="orderInfoList" separator=";" >
+            update t_goods
+            set stock = #{item.stock} + #{item.orderSum}
+            where goods_code = #{item.goodsCode}
         </foreach>
     </update>
 </mapper>

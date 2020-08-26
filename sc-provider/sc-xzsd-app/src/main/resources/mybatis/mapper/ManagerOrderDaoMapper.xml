@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.app.managerOrder.dao.ManagerOrderDao">
+    <!--修改店长端订单状态-->
+    <update id="updateOrderState" parameterType="com.xzsd.app.managerOrder.entity.ManagerOrderInfo">
+        update t_order
+        set
+            order_state = #{orderState},
+            update_time = now(),
+            update_name = #{userId},
+            version = version + 1
+        where order_code = #{orderCode}
+        and version = #{version}
+    </update>
+
+    <!--订单对应商品的Map-->
+    <resultMap id="getOrderDetail" type="com.xzsd.app.managerOrder.entity.ManagerOrderInfo">
+        <id column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="order_money" property="orderMoney" jdbcType="VARCHAR" />
+        <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
+        <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
+        <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+        <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <collection property="goodsList" ofType="com.xzsd.app.managerOrder.entity.GoodsInfo">
+            <id column="goodsCode" property="goodsCode" jdbcType="VARCHAR" />
+            <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+            <result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+            <result column="goodsIntroduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+            <result column="salePrice" property="salePrice" jdbcType="VARCHAR" />
+            <result column="orderSum" property="orderSum" jdbcType="VARCHAR" />
+            <result column="goodsIntroduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询订单详情-->
+    <select id="getStoreOrdersByCode" parameterType="java.lang.String" resultMap="getOrderDetail">
+        select
+            a.order_code,
+            a.order_money,
+            a.sum_goods,
+            e.user_name,
+            e.phone,
+            a.order_state,
+            a.store_code,
+            d.store_name,
+            d.address,
+            a.create_time,
+            a.version,
+            c.goods_code goodsCode,
+            c.goods_name goodsName,
+            c.goods_introduce goodsIntroduce,
+            c.image_url imagePath,
+            c.sale_price salePrice,
+            b.order_sum orderSum
+        from t_order a
+        LEFT JOIN t_order_detail b
+        on a.order_code = b.order_code
+        LEFT JOIN t_goods c
+        on b.goods_code = c.goods_code
+        LEFT JOIN t_store d
+        on a.store_code = d.store_code
+        LEFT JOIN t_sys_user e
+        on a.user_code = e.user_code
+        where a.is_deleted = 0
+        and a.order_code = #{orderCode}
+    </select>
+
+    <!--店长查询订单列表-->
+    <resultMap id="getStoreOrdersList" type="com.xzsd.app.managerOrder.entity.ManagerOrderInfo">
+        <id property="orderCode" column="order_code" jdbcType="VARCHAR"/>
+        <result property="userCode" column="user_code" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="orderState" column="order_state" jdbcType="VARCHAR"/>
+        <result property="orderMoney" column="order_money" jdbcType="VARCHAR"/>
+        <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
+        <collection property="goodsList" ofType="com.xzsd.app.managerOrder.entity.GoodsInfo" select="selectGoods" column="order_code">
+            <id property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+            <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+            <result property="imagePath" column="image_url" jdbcType="VARCHAR"/>
+            <result property="salePrice" column="sale_price" jdbcType="VARCHAR"/>
+            <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
+            <result column="goodsIntroduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <select id="getStoreOrdersList" parameterType="com.xzsd.app.clientOrder.entity.ClientOrderInfo" resultMap="getStoreOrdersList">
+        select
+            a.order_code,
+            a.user_code,
+            b.user_name,
+            b.phone,
+            a.order_state,
+            a.order_money,
+            a.sum_goods,
+            a.version
+        from t_order a
+        LEFT JOIN t_sys_user b
+        on a.user_code = b.user_code
+        where a.is_deleted = 0
+        and store_code in (select store_code from t_store where user_code = #{userId})
+        <if test="orderState != null and orderState != '' and orderState == 7">
+            and a.order_state = 7
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 1 ">
+            and a.order_state = 1
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 3 ">
+            and a.order_state = 3
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 5">
+            and (a.order_state = 5
+            or a.order_state = 8)
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 8">
+            and (a.order_state = 5
+            or a.order_state = 8)
+        </if>
+        order by
+        a.create_time
+        desc
+    </select>
+    <select id="selectGoods" parameterType="com.xzsd.app.clientOrder.entity.GoodsInfo" resultType="com.xzsd.app.clientOrder.entity.GoodsInfo">
+		select
+            a.goods_code,
+            b.goods_name,
+            b.sale_price,
+            b.image_url imagePath,
+            a.order_sum,
+            b.goods_introduce
+		from t_order_detail a
+		LEFT JOIN t_goods b
+		on a.goods_code = b.goods_code
+		LEFT JOIN t_order c
+		on a.order_code = c.order_code
+		where a.order_code = #{orderCode}
+		order by
+		a.create_time
+		desc
+	</select>
+</mapper>

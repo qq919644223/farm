@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xzsd.app.cart.entity.CartInfo">
+<mapper namespace="com.xzsd.app.cart.dao.CartDao">
     <!--检验新加的商品是否已经存在购物车-->
     <select id="checkSave" parameterType="com.xzsd.app.cart.entity.CartInfo" resultType="int">
         select

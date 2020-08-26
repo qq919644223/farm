@@ -1,57 +1,64 @@
 package com.xzsd.pc.order.dao;
 
-import com.xzsd.pc.order.entity.OrderDetailInfo;
+
 import com.xzsd.pc.order.entity.OrderInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Class OrderDao
- * @Description Order
- * @author jintian
- * @date 2020-08-24
- */
 @Mapper
 public interface OrderDao {
+
+    /**
+     * 查询订单列表  分页
+     * @author zhong
+     * @date 2020-04-06
+     * @param orderInfo
+     * @return
+     */
+    List<OrderInfo> listOrderByPage(OrderInfo orderInfo);
+
     /**
      * 查询订单详情
+     * @author zhong
+     * @date 2020-04-06
      * @param orderCode
      * @return
      */
-    List<OrderDetailInfo> getOrderByOrderCode(@Param("orderCode") String orderCode);
+    OrderInfo getOrderByOrderCode(@Param("orderCode") String orderCode);
+
     /**
-     * 订单列表（管理员）
-     * @param orderInfo
-     * @return
-     */
-    List<OrderInfo> listAdminOrderByPage(OrderInfo orderInfo);
-    /**
-     * 订单列表(站长)
-     * @param orderInfo
-     * @return
-     */
-    List<OrderInfo> listStoreOrderByPage(OrderInfo orderInfo);
-    /**
-     * 查询订单相关商品购买数量
+     * 校验取消的订单状态
+     * @date 2020-05-05
+     * @author zhong
      * @param listCode
      * @return
      */
-    List<OrderDetailInfo> getListOrderDetail(@Param("listCode") List<String> listCode);
-    /**
-     * 回滚商品库存
-     * @param listBuyNumber
-     * @return
-     */
-    int updateStock(@Param("listBuyNumber") List<OrderDetailInfo> listBuyNumber);
+    List<Integer> getOrderState(@Param("listCode") List<String> listCode);
     /**
      * 修改订单状态
+     * @author zhong
+     * @date 2020-04-12
      * @param listCode
-     * @param orderState
-     * @param listVersion
-     * @param userId
      * @return
      */
-    int updateOrderState(@Param("listCode") List<String> listCode, @Param("orderState") String orderState, @Param("listVersion") List<String> listVersion, @Param("userId") String userId);
+    int updateOrderState(@Param("listCode") List<String> listCode, @Param("orderState") int orderState, @Param("listVersion") List<String> listVersion, @Param("userId") String userId);
+
+    /**
+     * 查询订单的商品编码 购买数量 商品的库存
+     * @param listCode
+     * @return
+     */
+    List<OrderInfo> getOrder(@Param("listCode") List<String> listCode);
+
+    /**
+     * 修改订单对应商品的库存
+     * @param orderInfoList
+     * @return
+     */
+    int updateStock(@Param("orderInfoList") List<OrderInfo> orderInfoList);
+
+
+    String getUserRole(String userId);
 }

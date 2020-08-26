@@ -13,4 +13,6 @@ public interface CustomerDao {
      * @return 所有客户信息
      */
     List<CustomerInfo> listCustomerByPage(CustomerInfo customerInfo);
+
+
 }

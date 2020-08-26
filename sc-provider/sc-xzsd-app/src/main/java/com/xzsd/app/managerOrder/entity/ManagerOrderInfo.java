@@ -1,17 +1,16 @@
-package com.xzsd.pc.order.entity;
+package com.xzsd.app.managerOrder.entity;
 
 import java.util.List;
 
-/**
- * 订单实体类
- * @author zhong
- * @date 2020-04-06
- */
-public class OrderInfo {
+public class ManagerOrderInfo {
     /**
      * 订单编码
      */
     private String orderCode;
+    /**
+     * 付款时间
+     */
+    private String createTime;
     /**
      * 客户编码
      */
@@ -19,20 +18,27 @@ public class OrderInfo {
     /**
      * 订单总价
      */
-    private String orderMoney;
+    private float orderMoney;
+    /**
+     * 购买数量
+     */
+    private int orderSum;
+    /**
+     * 该订单购买是商品总数量
+     */
+    private int sumGoods;
     /**
      * 订单状态  订单状态 0取消订单 1到货 2取消到货 3已取货 4取消已取货 5已完成（已完成未评价） 6取消已完成 7已付款 8已完成已评价
      */
     private int orderState;
     /**
-     * 商品库存
-     */
-    private int stock;
-    /**
      * 门店编码
      */
     private String storeCode;
-
+    /**
+     * 门店名称
+     */
+    private String storeName;
     /**
      * 下单人
      */
@@ -50,21 +56,23 @@ public class OrderInfo {
      */
     private String goodsName;
     /**
-     * 购买数量
+     * 详情地址
      */
-    private String orderSum;
+    private String address;
+    /**
+     * 商品集合
+     */
+    private List<GoodsInfo> goodsList;
+
     /**
      * 商品售价
      */
-    private String salePrice;
+    private float salePrice;
     /**
      * 商品成本价
      */
-    private String costPrice;
-    /**
-     * 付款时间
-     */
-    private String createTime;
+    private float costPrice;
+
     /**
      * 付款时间区间
      */
@@ -73,7 +81,7 @@ public class OrderInfo {
     /**
      * 角色 1管理员  2客户 3店长 4司机
      */
-    private String roleCode;
+    private int role;
     /**
      * 店铺邀请码
      */
@@ -83,17 +91,34 @@ public class OrderInfo {
      */
     private String userId;
     /**
-     *购买商品的总数
-     */
-    private String sumGoods;
-    /**
-     * 地址
-     */
-    private String address;
-    /**
      * 作废标记 0为存在，1为作废
      */
     private int isDeleted;
+    /**
+     * 关键字
+     */
+    private String keyword;
+    /**
+     * 商品图片
+     */
+    private String imagePath;
+
+    /**
+     * 评价内容
+     */
+    private String appraiseDetail;
+    /**
+     * 评价星级
+     */
+    private int appraiseLevel;
+    /**
+     * 图片顺序
+     */
+    private int imageNum;
+    /**
+     * 创建人
+     */
+    private String createName;
     /**
      * 更新人
      * @return
@@ -121,11 +146,6 @@ public class OrderInfo {
      * @return
      */
     private int pageNum;
-    /**
-     * 商品集合
-     * @return
-     */
-    private List<GoodsInfo> goodsList;
 
     public String getOrderCode() {
         return orderCode;
@@ -143,11 +163,11 @@ public class OrderInfo {
         this.userCode = userCode;
     }
 
-    public String getOrderMoney() {
+    public float getOrderMoney() {
         return orderMoney;
     }
 
-    public void setOrderMoney(String orderMoney) {
+    public void setOrderMoney(float orderMoney) {
         this.orderMoney = orderMoney;
     }
 
@@ -165,6 +185,14 @@ public class OrderInfo {
 
     public void setStoreCode(String storeCode) {
         this.storeCode = storeCode;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getUserName() {
@@ -199,27 +227,27 @@ public class OrderInfo {
         this.goodsName = goodsName;
     }
 
-    public String getOrderSum() {
+    public int getOrderSum() {
         return orderSum;
     }
 
-    public void setOrderSum(String orderSum) {
+    public void setOrderSum(int orderSum) {
         this.orderSum = orderSum;
     }
 
-    public String getSalePrice() {
+    public float getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(String salePrice) {
+    public void setSalePrice(float salePrice) {
         this.salePrice = salePrice;
     }
 
-    public String getCostPrice() {
+    public float getCostPrice() {
         return costPrice;
     }
 
-    public void setCostPrice(String costPrice) {
+    public void setCostPrice(float costPrice) {
         this.costPrice = costPrice;
     }
 
@@ -247,12 +275,12 @@ public class OrderInfo {
         this.endPayTime = endPayTime;
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public int getRole() {
+        return role;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getInviteCode() {
@@ -277,6 +305,70 @@ public class OrderInfo {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getSumGoods() {
+        return sumGoods;
+    }
+
+    public void setSumGoods(int sumGoods) {
+        this.sumGoods = sumGoods;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAppraiseDetail() {
+        return appraiseDetail;
+    }
+
+    public void setAppraiseDetail(String appraiseDetail) {
+        this.appraiseDetail = appraiseDetail;
+    }
+
+    public int getAppraiseLevel() {
+        return appraiseLevel;
+    }
+
+    public void setAppraiseLevel(int appraiseLevel) {
+        this.appraiseLevel = appraiseLevel;
+    }
+
+    public int getImageNum() {
+        return imageNum;
+    }
+
+    public void setImageNum(int imageNum) {
+        this.imageNum = imageNum;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     public String getUpdateName() {
@@ -317,30 +409,6 @@ public class OrderInfo {
 
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public String getSumGoods() {
-        return sumGoods;
-    }
-
-    public void setSumGoods(String sumGoods) {
-        this.sumGoods = sumGoods;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public List<GoodsInfo> getGoodsList() {
