@@ -14,7 +14,7 @@ public interface ClientOrderDao {
 
     /**
      * 修改订单状态
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @author zhong
      * @param clientOrderInfo
      * @return
@@ -24,7 +24,7 @@ public interface ClientOrderDao {
     /**
      * 查询订单的商品编码 购买数量 商品的库存
      * @author zhong
-     * @date 2020-04-26
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -40,7 +40,7 @@ public interface ClientOrderDao {
     /**
      * 客户查询订单列表
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param clientOrderInfo
      * @return
      */
@@ -49,7 +49,7 @@ public interface ClientOrderDao {
     /**
      * 客户端查询订单详情
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -67,7 +67,7 @@ public interface ClientOrderDao {
     /**
      * 更新商品的评价等级
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param levelList
      * @return
      */
@@ -75,7 +75,7 @@ public interface ClientOrderDao {
     /**
      * 查询当前下单商品的评价等级
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param listGoods
      * @return
      */
@@ -95,7 +95,7 @@ public interface ClientOrderDao {
     /**
      * 新增订单到订单详细表
      * @author zhong
-     * @date 2020-04-23
+     * @date 2020-08-26
      * @param cartOrderInfoList
      * @return
      */
@@ -104,7 +104,7 @@ public interface ClientOrderDao {
     /**
      * 删除新增订单后购物车的商品
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param listCart
      * @return
      */
@@ -113,7 +113,7 @@ public interface ClientOrderDao {
     /**
      * 查询下单商品的库存
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param listGoods
      * @return
      */
@@ -122,7 +122,7 @@ public interface ClientOrderDao {
     /**
      * 查询下单商品的当前销售量
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param listGoods
      * @return
      */
@@ -131,7 +131,7 @@ public interface ClientOrderDao {
     /**
      * 更新下单商品的库存和销量
      * @author zhong
-     * @date 2020-04-24
+     * @date 2020-08-26
      * @param cartOrderInfoList
      * @return
      */
@@ -147,7 +147,7 @@ public interface ClientOrderDao {
     /**
      * 更新商品的星级
      * @author zhong
-     * @date 2020-04-25
+     * @date 2020-08-26
      * @param appraiseOrderInfo
      * @return
      */
@@ -155,7 +155,7 @@ public interface ClientOrderDao {
     /**
      * 查询当前评价商品的星级
      * @author zhong
-     * @date 2020-04-25
+     * @date 2020-08-26
      * @param appraiseOrderInfo
      * @return
      */
