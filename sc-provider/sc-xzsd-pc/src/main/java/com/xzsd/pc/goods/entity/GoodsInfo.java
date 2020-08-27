@@ -24,6 +24,14 @@ public class GoodsInfo {
      */
     private String classSecondCode;
     /**
+     * 一级分类名称
+     */
+    private String classFirstName;
+    /**
+     * 二级分类名称
+     */
+    private String classSecondName;
+    /**
      * 广告
      */
     private String advertisement;
@@ -35,6 +43,10 @@ public class GoodsInfo {
      * 供应商编码
      */
     private String userCode;
+    /**
+     * 供应商名字
+     */
+    private String userName;
     /**
      * 库存
      */
@@ -151,6 +163,22 @@ public class GoodsInfo {
         this.classSecondCode = classSecondCode;
     }
 
+    public String getClassFirstName() {
+        return classFirstName;
+    }
+
+    public void setClassFirstName(String classFirstName) {
+        this.classFirstName = classFirstName;
+    }
+
+    public String getClassSecondName() {
+        return classSecondName;
+    }
+
+    public void setClassSecondName(String classSecondName) {
+        this.classSecondName = classSecondName;
+    }
+
     public String getAdvertisement() {
         return advertisement;
     }
@@ -173,6 +201,14 @@ public class GoodsInfo {
 
     public void setUserCode(String userCode) {
         this.userCode = userCode;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getStock() {
