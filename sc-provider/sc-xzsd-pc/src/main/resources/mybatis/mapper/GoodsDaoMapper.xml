@@ -186,6 +186,7 @@
          goods_state = #{goodsState},
          stock = #{stock},
          image_path = #{imagePath},
+         user_code = #{userCode},
          goods_address = #{goodsAddress},
          store_code = #{storeCode},
          quality_date = #{qualityDate},
