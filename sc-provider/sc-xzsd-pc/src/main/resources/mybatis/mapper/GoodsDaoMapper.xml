@@ -83,17 +83,17 @@
              a.update_time updateTime,
              a.update_name updateName,
              a.version version
-         from t_goods a
-         LEFT JOIN t_store b
-         on a.store_code = b.store_code
-         LEFT JOIN t_goods_class c
-         on a.class_first_code = c.class_code
-         LEFT JOIN t_goods_class d
-         on a.class_second_code = d.class_code
-         LEFT JOIN t_sys_user e
-         on a.user_code = e.user_code
-         where a.goods_code = #{goodsCode}
-         and a.is_deleted = 0
+        from t_goods a
+        LEFT JOIN t_store b
+        on a.store_code = b.store_code
+        LEFT JOIN t_goods_class c
+        on a.class_first_code = c.class_code
+        LEFT JOIN t_goods_class d
+        on a.class_second_code = d.class_code
+        LEFT JOIN t_sys_user e
+        on a.user_code = e.user_code
+        where a.goods_code = #{goodsCode}
+        and a.is_deleted = 0
     </select>
 
     <!--查询产品列表-->
@@ -182,7 +182,6 @@
          goods_name = #{goodsName},
          cost_price = #{costPrice},
          sale_price = #{salePrice},
-         sum_sale = #{sumSale},
          class_first_code = #{classFirstCode},
          class_second_code = #{classSecondCode},
          advertisement = #{advertisement},
