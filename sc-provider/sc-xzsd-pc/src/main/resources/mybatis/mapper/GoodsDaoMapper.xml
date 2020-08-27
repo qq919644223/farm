@@ -74,6 +74,8 @@
              a.goods_address goodsAddress,
              a.store_code storeCode,
              b.store_name storeName,
+             a.user_code userCode,
+             e.user_name userName,
              a.quality_date qualityDate,
              a.audit audit,
              a.create_time createTime,
@@ -84,10 +86,12 @@
          from t_goods a
          LEFT JOIN t_store b
          on a.store_code = b.store_code
-        LEFT JOIN t_goods_class c
-        on a.class_first_code = c.class_code
-        LEFT JOIN t_goods_class d
-        on a.class_second_code = d.class_code
+         LEFT JOIN t_goods_class c
+         on a.class_first_code = c.class_code
+         LEFT JOIN t_goods_class d
+         on a.class_second_code = d.class_code
+         LEFT JOIN t_sys_user e
+         on a.user_code = e.user_code
          where a.goods_code = #{goodsCode}
          and a.is_deleted = 0
     </select>
