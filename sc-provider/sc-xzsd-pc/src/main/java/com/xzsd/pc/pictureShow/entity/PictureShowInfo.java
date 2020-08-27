@@ -25,7 +25,7 @@ public class PictureShowInfo {
     /**
      * 轮播图状态  1启用 2禁用
      */
-    private int showState;
+    private String showState;
     /**
      *有效期开始
      */
@@ -101,11 +101,11 @@ public class PictureShowInfo {
         this.imagePath = imagePath;
     }
 
-    public int getShowState() {
+    public String getShowState() {
         return showState;
     }
 
-    public void setShowState(int showState) {
+    public void setShowState(String showState) {
         this.showState = showState;
     }
 
