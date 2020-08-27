@@ -20,7 +20,7 @@ public class ManagerOrderService {
     /**
      * 店长修改订单状态
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param orderCode
      * @param orderState
      * @param userId
@@ -39,7 +39,7 @@ public class ManagerOrderService {
     /**
      * 店长查询订单详情
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -51,7 +51,7 @@ public class ManagerOrderService {
     /**
      * 店长查询订单列表
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param managerOrderInfo
      * @return
      */

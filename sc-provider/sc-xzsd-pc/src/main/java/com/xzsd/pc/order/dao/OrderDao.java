@@ -13,7 +13,7 @@ public interface OrderDao {
     /**
      * 查询订单列表  分页
      * @author zhong
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderInfo
      * @return
      */
@@ -22,7 +22,7 @@ public interface OrderDao {
     /**
      * 查询订单详情
      * @author zhong
-     * @date 2020-04-06
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -30,7 +30,7 @@ public interface OrderDao {
 
     /**
      * 校验取消的订单状态
-     * @date 2020-05-05
+     * @date 2020-08-26
      * @author zhong
      * @param listCode
      * @return
@@ -39,7 +39,7 @@ public interface OrderDao {
     /**
      * 修改订单状态
      * @author zhong
-     * @date 2020-04-12
+     * @date 2020-08-26
      * @param listCode
      * @return
      */

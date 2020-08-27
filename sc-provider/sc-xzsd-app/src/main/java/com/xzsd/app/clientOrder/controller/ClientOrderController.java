@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 /**
  * 订单评价 订单列表
  * @author zhong
- * @date 2020-04-19
+ * @date 2020-08-26
  */
 @RestController
 @RequestMapping("/order")
@@ -29,7 +29,7 @@ public class ClientOrderController {
     /**
      * 客户端修改订单状态
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param clientOrderInfo
      * @return
      */
@@ -47,7 +47,7 @@ public class ClientOrderController {
     /**
      * 客户端获取订单详情
      * @autho zhong
-     * @date 2020-04-21
+     * @date2020-08-26
      * @param orderCode
      * @return
      */
@@ -65,7 +65,7 @@ public class ClientOrderController {
     /**
      * 新增订单评价
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param
      * @return
      */
@@ -84,7 +84,7 @@ public class ClientOrderController {
     /**
      * 客户查询订单列表接口
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param clientOrderInfo
      * @return
      */
@@ -102,7 +102,7 @@ public class ClientOrderController {
     /**
      * 在购物车新增订单
      * @author zhong
-     * @date 2020-04-23
+     * @date 2020-08-26
      * @param orderSum
      * @param goodsCode
      * @param cartCode
@@ -121,6 +121,7 @@ public class ClientOrderController {
 
     /**
      * 新增评价   json格式
+     * @date 2020-08-26
      * @param appraiseOrderInfo
      * @return
      */

@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * 订单实体类
- * @author zhong
- * @date 2020-04-06
+ * @author wujingtian
+ * @date 2020-08-26
  */
 public class OrderInfo {
     /**

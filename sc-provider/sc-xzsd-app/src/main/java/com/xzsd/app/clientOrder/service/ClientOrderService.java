@@ -27,7 +27,7 @@ public class ClientOrderService {
     /**
      * 客户端修改订单状态
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param clientOrderInfo
      * @return
      */
@@ -64,7 +64,7 @@ public class ClientOrderService {
     /**
      * 客户端查询订单详情
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param orderCode
      * @return
      */
@@ -76,7 +76,7 @@ public class ClientOrderService {
     /**
      * 客户端新增订单评价
      * @author zhong
-     * @date 2020-04-23
+     * @date 2020-08-26
      * @param appraiseDetail
      * @param userId
      * @return
@@ -118,7 +118,7 @@ public class ClientOrderService {
     /**
      * 客户查询订单列表
      * @author zhong
-     * @date 2020-04-21
+     * @date 2020-08-26
      * @param clientOrderInfo
      * @return
      */
@@ -136,7 +136,7 @@ public class ClientOrderService {
     /**
      * 在购物车新增订单
      * @author zhong
-     * @date 2020-04-23
+     * @date 2020-08-26
      * @param goodsCode
      * @param orderSum
      * @param cartCode
@@ -194,7 +194,7 @@ public class ClientOrderService {
     /**
      * 新增评价  json格式
      * @author zhong
-     * @date 2020-04-25
+     * @date 2020-08-26
     * @param appraiseOrderInfo
      * @return
      */
