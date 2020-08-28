@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xzsd.pc.order.dao.OrderDao">
     <!--获取当前登录人的角色-->
-    <select id="getUserRole" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="getUserRole" parameterType="java.lang.String" resultType="com.xzsd.pc.order.entity.OrderInfo">
         select
-        IFNULL(MAX(role),null)
+        role
         from
         t_sys_user
         where
@@ -21,7 +21,6 @@
         c.user_name userName,
         c.phone phone,
         a.create_time createTime,
-        b.invite_code inviteCode,
         a.update_time updateTime,
         a.update_name updateName,
         a.version version

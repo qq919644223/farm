@@ -43,7 +43,7 @@ public interface OrderDao {
      * @param listCode
      * @return
      */
-    int updateOrderState(@Param("listCode") List<String> listCode, @Param("orderState") int orderState, @Param("listVersion") List<String> listVersion, @Param("userId") String userId);
+    int updateOrderState(@Param("listCode") List<String> listCode, @Param("orderState") String  orderState, @Param("listVersion") List<String> listVersion, @Param("userId") String userId);
 
     /**
      * 查询订单的商品编码 购买数量 商品的库存
@@ -59,6 +59,10 @@ public interface OrderDao {
      */
     int updateStock(@Param("orderInfoList") List<OrderInfo> orderInfoList);
 
-
-    String getUserRole(String userId);
+    /**
+     * 获取登录角色的角色标记
+     * @param userId
+     * @return
+     */
+    OrderInfo getUserRole(@Param("userId") String userId);
 }

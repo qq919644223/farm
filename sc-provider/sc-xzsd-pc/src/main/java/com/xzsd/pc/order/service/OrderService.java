@@ -31,7 +31,8 @@ public class OrderService {
         String userId = SecurityUtils.getCurrentUserId();
         orderInfo.setUserId(userId);
         //查询当前登录人的角色
-        int role = orderDao.getUserRole(userId);
+        OrderInfo ord = orderDao.getUserRole(userId);
+        int role = ord.getRole();
         orderInfo.setRole(role);
         PageHelper.startPage(orderInfo.getPageNum(), orderInfo.getPageSize());
         List<OrderInfo> orderInfoList = orderDao.listOrderByPage(orderInfo);
