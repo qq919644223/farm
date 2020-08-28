@@ -54,7 +54,7 @@
             c.goods_code goodsCode,
             c.goods_name goodsName,
             c.goods_introduce goodsIntroduce,
-            c.image_url imagePath,
+            c.image_path imagePath,
             c.sale_price salePrice,
             b.order_sum orderSum
         from t_order a
