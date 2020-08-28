@@ -72,7 +72,7 @@ public class OrderController {
      * @return
      */
     @PostMapping("updateOrderState")
-    public AppResponse updateOrderState(String orderCode, int orderState, String version){
+    public AppResponse updateOrderState(String orderCode, String orderState, String version){
         try{
             //获取用户id
             String userId = SecurityUtils.getCurrentUserId();

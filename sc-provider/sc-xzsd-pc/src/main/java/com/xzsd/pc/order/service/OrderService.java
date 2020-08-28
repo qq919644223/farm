@@ -19,8 +19,6 @@ public class OrderService {
 
     @Resource
     private OrderDao orderDao;
-    @Resource
-    private CustomerDao customerDao;
     /**
      * 查询订单列表  分页
      * @author zhong
@@ -33,8 +31,8 @@ public class OrderService {
         String userId = SecurityUtils.getCurrentUserId();
         orderInfo.setUserId(userId);
         //查询当前登录人的角色
-        String role = orderDao.getUserRole(userId);
-        orderInfo.setRoleCode(role);
+        int role = orderDao.getUserRole(userId);
+        orderInfo.setRole(role);
         PageHelper.startPage(orderInfo.getPageNum(), orderInfo.getPageSize());
         List<OrderInfo> orderInfoList = orderDao.listOrderByPage(orderInfo);
         //包装Page对象
@@ -63,14 +61,14 @@ public class OrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse updateOrderState(String orderCode, int orderState, String version, String userId) {
+    public AppResponse updateOrderState(String orderCode, String orderState, String version, String userId) {
         //分割订单编码，逗号隔开
         List<String> listCode = Arrays.asList(orderCode.split(","));
         //分割版本号，逗号隔开
         List<String> listVersion = Arrays.asList(version.split(","));
         //修改订单状态
         int count = orderDao.updateOrderState(listCode,orderState,listVersion,userId);
-        if (orderState == 9){
+        if ("9".equals(orderState)){
             //查询订单的商品编码 购买数量 商品的库存
             List<OrderInfo> orderInfoList = orderDao.getOrder(listCode);
             //修改商品库存

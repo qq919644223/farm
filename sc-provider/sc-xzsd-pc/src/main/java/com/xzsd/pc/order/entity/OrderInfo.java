@@ -23,7 +23,7 @@ public class OrderInfo {
     /**
      * 订单状态  订单状态 0取消订单 1到货 2取消到货 3已取货 4取消已取货 5已完成（已完成未评价） 6取消已完成 7已付款 8已完成已评价
      */
-    private int orderState;
+    private String orderState;
     /**
      * 商品库存
      */
@@ -73,7 +73,7 @@ public class OrderInfo {
     /**
      * 角色 1管理员  2客户 3店长 4司机
      */
-    private String roleCode;
+    private int role;
     /**
      * 店铺邀请码
      */
@@ -151,11 +151,11 @@ public class OrderInfo {
         this.orderMoney = orderMoney;
     }
 
-    public int getOrderState() {
+    public String getOrderState() {
         return orderState;
     }
 
-    public void setOrderState(int orderState) {
+    public void setOrderState(String orderState) {
         this.orderState = orderState;
     }
 
@@ -247,12 +247,12 @@ public class OrderInfo {
         this.endPayTime = endPayTime;
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public int getRole() {
+        return role;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getInviteCode() {
