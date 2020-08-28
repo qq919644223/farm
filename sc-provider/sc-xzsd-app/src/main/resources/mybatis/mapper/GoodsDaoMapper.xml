@@ -14,20 +14,24 @@
     <!--获取商品信息-->
     <select id="getGoods" parameterType="java.lang.String" resultType="com.xzsd.app.goods.entity.GoodsInfo">
        select
-         goods_code goodsCode,
-         goods_name goodsName,
-         goods_introduce goodsIntroduce,
-         sale_price salePrice,
-         image_path imagePath,
-         a_level appraiseLeve,
-         sum_sale orderSum,
-         version version
+         a.goods_code goodsCode,
+         a.goods_name goodsName,
+         b.store_code storeCode,
+         b.store_name storeName,
+         a.goods_introduce goodsIntroduce,
+         a.sale_price salePrice,
+         a.image_path imagePath,
+         a.a_level appraiseLeve,
+         a.sum_sale orderSum,
+         a.version version
        from
-         t_goods
+         t_goods a
+       LEFT JOIN
+       on a.store_code = b.store_code
        where
-         goods_code = #{goodsCode}
+         a.goods_code = #{goodsCode}
        and
-         is_deleted = 0
+         a.is_deleted = 0
     </select>
 
     <!--查询产品评价列表-->

@@ -14,6 +14,14 @@ public class GoodsInfo {
      */
     private String goodsIntroduce;
     /**
+     * 站点编码
+     */
+    private String storeCode;
+    /**
+     * 站点名称
+     */
+    private String storeName;
+    /**
      * 售价
      */
     private String salePrice;
@@ -25,10 +33,6 @@ public class GoodsInfo {
      * 评价星级
      */
     private String appraiseLeve;
-    /**
-     * 站点名称
-     */
-    private String storeName;
     /**
      * 库存
      */
@@ -88,6 +92,14 @@ public class GoodsInfo {
 
     public void setAppraiseLeve(String appraiseLeve) {
         this.appraiseLeve = appraiseLeve;
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
     }
 
     public String getStoreName() {
