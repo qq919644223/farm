@@ -137,7 +137,7 @@
             a.version,
             b.goods_code goodsCode,
             c.goods_name goodsName,
-            c.image_url imagePath,
+            c.image_path imagePath,
             c.sale_price salePrice,
             c.goods_introduce goodsIntroduce,
             b.order_sum orderSum
@@ -209,7 +209,7 @@
             a.goods_code,
             b.goods_name,
             b.sale_price,
-            b.image_url imagePath,
+            b.image_path imagePath,
             b.goods_introduce,
             a.order_sum
 		from t_order_detail a

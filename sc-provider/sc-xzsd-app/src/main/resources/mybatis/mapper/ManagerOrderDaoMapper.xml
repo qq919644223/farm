@@ -129,7 +129,7 @@
             a.goods_code,
             b.goods_name,
             b.sale_price,
-            b.image_url imagePath,
+            b.image_path imagePath,
             a.order_sum,
             b.goods_introduce
 		from t_order_detail a
