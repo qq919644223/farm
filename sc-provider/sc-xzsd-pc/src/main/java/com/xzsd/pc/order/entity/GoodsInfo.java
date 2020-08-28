@@ -104,6 +104,10 @@ public class GoodsInfo {
      */
     private String imagePath;
     /**
+     * 购买数量
+     */
+    private String orderSum;
+    /**
      * 作废标记 0为存在，1为作废
      */
     private int isDeleted;
@@ -335,6 +339,14 @@ public class GoodsInfo {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getOrderSum() {
+        return orderSum;
+    }
+
+    public void setOrderSum(String orderSum) {
+        this.orderSum = orderSum;
     }
 
     public String getCreateName() {
