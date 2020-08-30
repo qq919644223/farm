@@ -86,7 +86,8 @@
          b.area_code areaCode,
          e.dic_name areaName,
          a.version userVersion,
-         b.version supplierVersion
+         b.version supplierVersion,
+         a.image_path imagePath
          from t_supplier b
         left join t_sys_user a on b.user_code = a.user_code
         left join t_dictionary c on b.province_code = c.dic_code
