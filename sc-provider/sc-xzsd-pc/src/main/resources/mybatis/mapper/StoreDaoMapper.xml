@@ -105,9 +105,9 @@
          a.province_code provinceCode,
          a.city_code cityCode,
          a.area_code areaCode,
-         c.dict_name provinceName,
-         d.dict_name cityName,
-         e.dict_name areaName,
+         c.dic_name provinceName,
+         d.dic_name cityName,
+         e.dic_name areaName,
          a.license_code licenseCode,
          a.village_code villageCode,
          a.version version
