@@ -80,7 +80,7 @@
         <collection property="classSecondGoodsList" ofType="com.xzsd.app.goods.entity.ClassSecondList" select="selectGoods" column="class_code">
             <id column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
             <id column="goods_name" property="goodsName" jdbcType="VARCHAR" />
-            <id column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+            <id column="image_path" property="imageUrl" jdbcType="VARCHAR" />
             <id column="sale_price" property="salePrice" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
