@@ -53,6 +53,12 @@ public interface HotVillageDao {
      */
     int deleteHotVillage(@Param("listCode") List<String> listCode, @Param("userId") String userId);
     /**
+     * 查询乡村信息列表
+     * @param hotVillageInfo
+     * @return
+     */
+    List<HotVillageInfo> listVillageByPage(HotVillageInfo hotVillageInfo);
+    /**
      * 设置展示数量
      * @param hotVillageInfo
      * @return

@@ -27,7 +27,7 @@ public class HotVillageController {
     /**
      * 新增热门乡村
      * @param hotVillageInfo
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @Date 2020-08-23
      */
@@ -67,7 +67,7 @@ public class HotVillageController {
     /**
      * 查询热门乡村列表
      * @param hotVillageInfo
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -84,7 +84,7 @@ public class HotVillageController {
     /**
      * 查询热门乡村详情
      * @param hotCode
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -101,7 +101,7 @@ public class HotVillageController {
     /**
      * 删除热门乡村
      * @param hotCode
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -117,9 +117,26 @@ public class HotVillageController {
         }
     }
     /**
+     * 查询乡村信息列表
+     * @param hotVillageInfo
+     * @return Appresponse
+     * @author jintian
+     * @date 2020-08-23
+     */
+    @PostMapping("listVillageByPage")
+    public AppResponse listVillageByPage(HotVillageInfo hotVillageInfo){
+        try{
+            return hotVillageService.listVillageByPage(hotVillageInfo);
+        } catch (Exception e) {
+            logger.error("查询失败！",e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
+    /**
      * 设置展示热门乡村数量
      * @param hotVillageInfo
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -139,7 +156,7 @@ public class HotVillageController {
     /**
      * 查询热门乡村展示数量
      * @param
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
