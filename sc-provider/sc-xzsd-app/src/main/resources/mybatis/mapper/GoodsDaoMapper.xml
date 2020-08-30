@@ -99,7 +99,7 @@
         select
             goods_code goodsCode,
             goods_name goodsName,
-            image_url imageUrl,
+            image_path imageUrl,
             sale_price salePrice
         from t_goods
         where class_second_code = #{classSecondCode}
