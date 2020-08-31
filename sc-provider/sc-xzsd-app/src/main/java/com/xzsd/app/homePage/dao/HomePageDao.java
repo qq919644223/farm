@@ -1,6 +1,7 @@
 package com.xzsd.app.homePage.dao;
 
 import com.xzsd.app.homePage.entity.HomePageInfo;
+import com.xzsd.app.homePage.entity.VillageGoodsInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,4 +33,11 @@ public interface HomePageDao {
      * @return
      */
     List<HomePageInfo> getHotVillage(@Param("showNumber")int showNumber);
+
+    /**
+     * 查询乡村和商品
+     * @param villageCode
+     * @return
+     */
+    List<VillageGoodsInfo> getVillageAndGoods(@Param("villageCode") String villageCode);
 }
