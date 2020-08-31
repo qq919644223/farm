@@ -54,4 +54,21 @@ public class HomePageController {
             throw e;
         }
     }
+
+    /**
+     * @author zhong
+     * @date 2020-08-31
+     * @param villageCode
+     * @return
+     */
+    @RequestMapping(value = "getVillageAndGoods")
+    public AppResponse getVillageAndGoods(String villageCode) {
+        try {
+            return homePageService.getVillageAndGoods(villageCode);
+        } catch (Exception e) {
+            logger.error("查询乡村和商品失败！", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
 }

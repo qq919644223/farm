@@ -1,5 +1,7 @@
 package com.xzsd.app.homePage.entity;
 
+import java.util.List;
+
 /**
  * @description app首页实体类
  * @author jintian
@@ -15,9 +17,17 @@ public class HomePageInfo {
      */
     private String goodsCode;
     /**
+     * 乡村编码
+     */
+    private String villageCode;
+    /**
      * 乡村名称
      */
     private String villageName;
+    /**
+     * 乡村介绍
+     */
+    private String villageIntroduce;
     /**
      * 图片路径
      */
@@ -30,6 +40,12 @@ public class HomePageInfo {
      * 版本号
      */
     private String version;
+
+    /**
+     * List
+     * @param chartRoute
+     */
+    private List<HomePageInfo> homePageInfoList;
 
     public void setChartRoute(String chartRoute) {
         this.chartRoute = chartRoute;
@@ -63,8 +79,24 @@ public class HomePageInfo {
         return goodsCode;
     }
 
+    public String getVillageCode() {
+        return villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
+    }
+
     public String getVillageName() {
         return villageName;
+    }
+
+    public String getVillageIntroduce() {
+        return villageIntroduce;
+    }
+
+    public void setVillageIntroduce(String villageIntroduce) {
+        this.villageIntroduce = villageIntroduce;
     }
 
     public String getImagePath() {
@@ -77,5 +109,13 @@ public class HomePageInfo {
 
     public String getVersion() {
         return version;
+    }
+
+    public List<HomePageInfo> getHomePageInfoList() {
+        return homePageInfoList;
+    }
+
+    public void setHomePageInfoList(List<HomePageInfo> homePageInfoList) {
+        this.homePageInfoList = homePageInfoList;
     }
 }

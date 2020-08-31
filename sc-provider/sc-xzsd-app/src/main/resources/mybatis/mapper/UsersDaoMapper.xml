@@ -68,7 +68,6 @@
         )
         values
         (#{userCode},
-        #{inviteCode},
         #{isDeleted},
         now(),
         0

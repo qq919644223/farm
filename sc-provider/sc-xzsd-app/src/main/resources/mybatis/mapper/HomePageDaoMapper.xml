@@ -32,4 +32,46 @@
         and b.village_code = a.village_code
         order by hot_id asc limit #{showNumber}
     </select>
+
+
+    <!--热门乡村及商品-->
+    <resultMap id="getVillageAndGoods" type="com.xzsd.app.homePage.entity.HomePageInfo">
+        <id column="village_code" property="villageCode" jdbcType="VARCHAR" />
+        <id column="village_name" property="villageName" jdbcType="VARCHAR" />
+        <id column="image_code" property="imagePath" jdbcType="VARCHAR" />
+        <id column="village_introduce" property="villageIntroduce" jdbcType="VARCHAR" />
+        <collection property="homePageInfoList" ofType="com.xzsd.app.homePage.entity.VillageGoodsInfo" select="selectGoods" column="village_code">
+            <id column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+            <id column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+            <id column="image_path" property="imagePath" jdbcType="VARCHAR" />
+            <id column="sale_price" property="salePrice" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <!--查询商品二级分类和商品-->
+    <select id="getVillageAndGoods" resultMap="getVillageAndGoods">
+        select
+            village_code,
+            village_name,
+            image_code,
+            village_introduce
+        from t_village
+        where is_deleted = 0
+          and village_code = #{villageCode}
+        order by
+            create_time desc
+    </select>
+    <select id="selectGoods" parameterType="com.xzsd.app.homePage.entity.VillageGoodsInfo" resultType="com.xzsd.app.homePage.entity.VillageGoodsInfo">
+        select
+            goods_code goodsCode,
+            goods_name goodsName,
+            image_path imagePath,
+            sale_price salePrice
+        from t_goods
+        where store_code in
+        (select store_code from t_store where village_code = #{villageCode})
+          and is_deleted = 0
+          and goods_state = 2
+        order by
+            create_time desc
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.xzsd.app.homePage.service;
 import com.neusoft.core.restful.AppResponse;
 import com.xzsd.app.homePage.dao.HomePageDao;
 import com.xzsd.app.homePage.entity.HomePageInfo;
+import com.xzsd.app.homePage.entity.VillageGoodsInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,7 +30,7 @@ public class HomePageService {
         return AppResponse.success("查询成功！",getPageInfo(listRotationChartByPage));
     }
     /**
-     * 查询热门商品
+     * 查询热门乡村
      * @param
      * @return
      */
@@ -38,5 +39,16 @@ public class HomePageService {
         int showNumber = homePageDao.getShowNumber();
         List<HomePageInfo> listHotVillageByPage = homePageDao.getHotVillage(showNumber);
         return AppResponse.success("查询成功！",getPageInfo(listHotVillageByPage));
+    }
+
+    /**
+     * @author zhong
+     * @date 2020-08-31
+     * @param villageCode
+     * @return
+     */
+    public AppResponse getVillageAndGoods(String villageCode) {
+        List<VillageGoodsInfo> villageGoodsList = homePageDao.getVillageAndGoods(villageCode);
+        return AppResponse.success("查询列表成功！", villageGoodsList);
     }
 }
