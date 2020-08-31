@@ -47,7 +47,6 @@
             <id column="sale_price" property="salePrice" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
-    <!--查询商品二级分类和商品-->
     <select id="getVillageAndGoods" resultMap="getVillageAndGoods">
         select
             village_code,
