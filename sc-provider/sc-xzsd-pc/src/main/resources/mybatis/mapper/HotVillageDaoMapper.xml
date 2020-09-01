@@ -92,6 +92,21 @@
             #{hotCode}
         </foreach>
     </update>
+    <!--查询乡村信息列表-->
+    <select id="listVillageByPage" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo" resultType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
+        select
+        village_code villageCode,
+        village_name villageName
+        from t_village
+        where is_deleted = 0
+        <if test="villageCode != null and villageCode != ''">
+            and village_code = #{villageCode}
+        </if>
+        <if test="villageName != null and villageName != ''">
+            and village_name = #{villageName}
+        </if>
+
+    </select>
     <!--设置展示数量-->
     <update id="saveShowNo" parameterType="com.xzsd.pc.hotVillage.entity.HotVillageInfo">
         update t_dictionary

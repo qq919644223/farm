@@ -100,7 +100,7 @@ public class HotVillageService {
     /**
      * 删除热门乡村
      * @param hotCode
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -115,9 +115,20 @@ public class HotVillageService {
         return AppResponse.success("删除成功！");
     }
     /**
+     * 查询乡村列表
+     * @param
+     * @return Appresponse
+     * @author jintian
+     * @date 2020-08-23
+     */
+    public AppResponse listVillageByPage(HotVillageInfo hotVillageInfo){
+        List<HotVillageInfo> listVillage = hotVillageDao.listVillageByPage(hotVillageInfo);
+        return AppResponse.success("查询成功！",getPageInfo(listVillage));
+    }
+    /**
      * 设置热门乡村展示数量
      * @param hotVillageInfo
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */
@@ -132,7 +143,7 @@ public class HotVillageService {
     /**
      * 查询热门乡村展示数量
      * @param
-     * @return Appresponce
+     * @return Appresponse
      * @author jintian
      * @date 2020-08-23
      */

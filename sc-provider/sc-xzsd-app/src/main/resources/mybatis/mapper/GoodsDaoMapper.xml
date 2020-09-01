@@ -26,7 +26,7 @@
          a.version version
        from
          t_goods a
-       LEFT JOIN
+       LEFT JOIN t_store b
        on a.store_code = b.store_code
        where
          a.goods_code = #{goodsCode}
@@ -99,7 +99,7 @@
         select
             goods_code goodsCode,
             goods_name goodsName,
-            image_url imageUrl,
+            image_path imageUrl,
             sale_price salePrice
         from t_goods
         where class_second_code = #{classSecondCode}
