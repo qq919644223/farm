@@ -44,7 +44,7 @@ public class SupplierController {
         }
     }
     /**
-     * 查询司机详情
+     * 查询供应商详情
      * @param userCode
      * @return AppResponse
      * @author jintian

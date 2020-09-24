@@ -131,7 +131,7 @@
             a.order_money,
             a.order_state,
             a.sum_goods,
-            a.store_code,
+            b.store_code,
             d.address,
             a.create_time,
             a.version,
@@ -147,7 +147,7 @@
         LEFT JOIN t_goods c
         on b.goods_code = c.goods_code
         LEFT JOIN t_store d
-        on a.store_code = d.store_code
+        on b.store_code = d.store_code
         where a.is_deleted = 0
         and a.order_code = #{orderCode}
     </select>
@@ -184,6 +184,9 @@
         <if test="orderState != null and orderState != '' and orderState == 7">
             and a.order_state = 7
         </if>
+        <if test="orderState != null and orderState != '' and orderState == 9">
+            and a.order_state = 9
+        </if>
         <if test="orderState != null and orderState != '' and orderState == 1 ">
             and (a.order_state = 1
             or a.order_state = 3)
@@ -209,7 +212,7 @@
             a.goods_code,
             b.goods_name,
             b.sale_price,
-            b.image_url imagePath,
+            b.image_path imagePath,
             b.goods_introduce,
             a.order_sum
 		from t_order_detail a
@@ -232,7 +235,6 @@
         user_code,
         order_money,
         order_state,
-        store_code,
         sum_goods,
         is_deleted,
         create_time,
@@ -245,7 +247,6 @@
         #{userId},
         #{orderMoney},
         7,
-        #{storeCode},
         #{sumGoods},
         0,
         now(),
@@ -268,6 +269,7 @@
         goods_code,
         order_sum,
         cart_code,
+        store_code,
         is_deleted,
         create_time,
         create_name,
@@ -282,6 +284,7 @@
             #{order.goodsCode},
             #{order.orderSum},
             #{order.cartCode},
+            #{order.storeCode},
             0,
             #{order.createTime},
             #{order.userId},

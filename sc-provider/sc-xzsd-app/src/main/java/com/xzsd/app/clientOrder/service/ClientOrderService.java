@@ -147,6 +147,7 @@ public class ClientOrderService {
         List<String> listGoods = Arrays.asList(goodsCode.split(","));
         List<String> listSum = Arrays.asList(orderSum.split(","));
         List<String> listCart = Arrays.asList(cartCode.split(","));
+        List<String> listStore = Arrays.asList(storeCode.split(","));
         //创建list储存商品、购买数量、购物车编码
         List<CartOrderInfo> cartOrderInfoList = new ArrayList<CartOrderInfo>();
         //查询当前下单商品的库存
@@ -169,6 +170,7 @@ public class ClientOrderService {
             orderInfo.setOrderMoney(orderMoney);
             orderInfo.setCartCode(listCart.get(i));
             orderInfo.setGoodsCode(listGoods.get(i));
+            orderInfo.setStoreCode(listStore.get(i));
             orderInfo.setOrderSum(Integer.parseInt(listSum.get(i)));
             orderInfo.setStock(countGoodsStock.get(i));
             orderInfo.setIsDeleted(0);
@@ -177,7 +179,7 @@ public class ClientOrderService {
             cartOrderInfoList.add(orderInfo);
         }
         //新增订单到订单表
-        int saveCartOrder = clientOrderDao.saveCartOrder(orderCode,userId,orderMoney,storeCode,sumGoods);
+        int saveCartOrder = clientOrderDao.saveCartOrder(orderCode,userId,orderMoney,sumGoods);
         //新增订单到订单详情表
         int saveCartOrderDetail = clientOrderDao.saveCartOrderDetail(cartOrderInfoList);
         if (0 == saveCartOrder || 0 == saveCartOrderDetail){

@@ -14,15 +14,15 @@ public class StorerInfo {
      */
     private String phone;
     /**
-     * 门店编号
+     * 站点编号
      */
     private String storeCode;
     /**
-     * 门店名称
+     * 站点名称
      */
     private String storeName;
     /**
-     * 门店地址
+     * 站点地址
      */
     private String address;
 

@@ -2,6 +2,7 @@ package com.xzsd.app.supplier.controller;
 
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
+import com.xzsd.app.supplier.entity.GoodsInfo;
 import com.xzsd.app.supplier.service.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,21 @@ public class SupplierController {
             //获取当前用户id
             String userCode = SecurityUtils.getCurrentUserId();
             return supplierService.getStoreBySupplier(userCode);
+        } catch (Exception e) {
+            logger.error("查询失败！", e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "getMyGoods")
+    public AppResponse getMyGoods(GoodsInfo goodsInfo){
+        try{
+            return supplierService.getMyGoods(goodsInfo);
         } catch (Exception e) {
             logger.error("查询失败！", e);
             System.out.println(e.toString());

@@ -87,10 +87,9 @@ public interface ClientOrderDao {
      * @param orderCode
      * @param userId
      * @param orderMoney
-     * @param storeCode
      * @return
      */
-    int saveCartOrder(@Param("orderCode") String orderCode, @Param("userId") String userId, @Param("orderMoney") float orderMoney, @Param("storeCode") String storeCode, @Param("sumGoods") int sumGoods);
+    int saveCartOrder(@Param("orderCode") String orderCode, @Param("userId") String userId, @Param("orderMoney") float orderMoney, @Param("sumGoods") int sumGoods);
 
     /**
      * 新增订单到订单详细表

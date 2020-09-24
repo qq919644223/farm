@@ -33,10 +33,10 @@ public class SupplierService {
      * @date 2020-04-13
      */
     public AppResponse saveSupplier(SupplierInfo supplierInfo){
-        //校验司机账号是否存在
+        //校验供应商账号是否存在
         int countAcct = supplierDao.countAcct(supplierInfo);
         if(countAcct != 0){
-            return AppResponse.success("司机账号已存在，请重新输入！");
+            return AppResponse.success("供应商账号已存在，请重新输入！");
         }
         supplierInfo.setUserCode(StringUtil.getCommonCode(2));
         supplierInfo.setIsDeleted(0);
@@ -50,7 +50,7 @@ public class SupplierService {
         //新增供应商表信息
         int countDriver = supplierDao.addSupplier(supplierInfo);
         if(countDriver == 0){
-            return AppResponse.success("新增司机表失败，请重试");
+            return AppResponse.success("新增供应商表失败，请重试");
         }
         return AppResponse.success("新增成功！");
     }
@@ -74,10 +74,10 @@ public class SupplierService {
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse updateSupplier(SupplierInfo supplierInfo) {
-        //校验司机账号是否存在
+        //校验供应商账号是否存在
         int countAcct = supplierDao.countAcct(supplierInfo);
         if(countAcct != 0){
-            return AppResponse.success("司机账号已存在，请重新输入！");
+            return AppResponse.success("供应商账号已存在，请重新输入！");
         }
         //查询原密码
         String userOldPwd = supplierDao.getUserPwd(supplierInfo);
@@ -99,7 +99,7 @@ public class SupplierService {
         // 修改供应商表信息
         int countDriver = supplierDao.updateSupplier(supplierInfo);
         if (0 == countDriver) {
-            return AppResponse.versionError("司机表数据有变化，请刷新！");
+            return AppResponse.versionError("供应商表数据有变化，请刷新！");
         }
         return AppResponse.success("修改成功！");
     }
@@ -127,15 +127,15 @@ public class SupplierService {
     @Transactional(rollbackFor = Exception.class)
     public AppResponse deleteSupplier(String userCode, String userId) {
         List<String> listCode = Arrays.asList(userCode.split(","));
-        // 删除用户表司机
+        // 删除用户表供应商
         int countUser = supplierDao.deleteUser(listCode, userId);
         if (0 == countUser) {
             return AppResponse.bizError("删除用户表失败，请重试！");
         }
-        // 删除司机表司机
+        // 删除供应商表供应商
         int countDriver = supplierDao.deleteSupplier(listCode, userId);
         if (0 == countDriver) {
-            return AppResponse.bizError("删除司机表失败，请重试！");
+            return AppResponse.bizError("删除供应商表失败，请重试！");
         }
         return AppResponse.success("删除成功！");
     }

@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 public class OrderService {
-
+    String State = "9";
     @Resource
     private OrderDao orderDao;
     /**
@@ -69,13 +69,13 @@ public class OrderService {
         List<String> listVersion = Arrays.asList(version.split(","));
         //修改订单状态
         int count = orderDao.updateOrderState(listCode,orderState,listVersion,userId);
-        if ("9".equals(orderState)){
+        if (State.equals(orderState)){
             //查询订单的商品编码 购买数量 商品的库存
             List<OrderInfo> orderInfoList = orderDao.getOrder(listCode);
             //修改商品库存
             int updateStock = orderDao.updateStock(orderInfoList);
             if (0 == updateStock){
-                return AppResponse.bizError("数据无变化，请重试！");
+                return AppResponse.bizError("修改库存失败！");
             }
         }
         if (0 == count){

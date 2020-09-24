@@ -46,7 +46,7 @@
             e.user_name,
             e.phone,
             a.order_state,
-            a.store_code,
+            b.store_code,
             d.store_name,
             d.address,
             a.create_time,
@@ -63,7 +63,7 @@
         LEFT JOIN t_goods c
         on b.goods_code = c.goods_code
         LEFT JOIN t_store d
-        on a.store_code = d.store_code
+        on b.store_code = d.store_code
         LEFT JOIN t_sys_user e
         on a.user_code = e.user_code
         where a.is_deleted = 0
@@ -101,10 +101,15 @@
         from t_order a
         LEFT JOIN t_sys_user b
         on a.user_code = b.user_code
+        LEFT JOIN t_order_detail c
+        on a.order_code = c.order_code
         where a.is_deleted = 0
-        and store_code in (select store_code from t_store where user_code = #{userId})
+        and c.store_code in (select store_code from t_store where user_code = #{userId})
         <if test="orderState != null and orderState != '' and orderState == 7">
             and a.order_state = 7
+        </if>
+        <if test="orderState != null and orderState != '' and orderState == 9">
+            and a.order_state = 9
         </if>
         <if test="orderState != null and orderState != '' and orderState == 1 ">
             and a.order_state = 1
@@ -129,7 +134,7 @@
             a.goods_code,
             b.goods_name,
             b.sale_price,
-            b.image_url imagePath,
+            b.image_path imagePath,
             a.order_sum,
             b.goods_introduce
 		from t_order_detail a

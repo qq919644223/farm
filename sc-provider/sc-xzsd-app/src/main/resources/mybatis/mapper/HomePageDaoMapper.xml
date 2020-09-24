@@ -18,11 +18,12 @@
         where type = 4
         and is_deleted = 0
     </select>
-    <!--查询热门商品-->
+    <!--查询热门乡村-->
     <select id="getHotVillage" parameterType="int" resultType="com.xzsd.app.homePage.entity.HomePageInfo">
         select
         b.village_code villageCode,
         a.village_name villageName,
+        a.village_introduce villageIntroduce,
         a.image_code imagePath
         from
         t_village a,

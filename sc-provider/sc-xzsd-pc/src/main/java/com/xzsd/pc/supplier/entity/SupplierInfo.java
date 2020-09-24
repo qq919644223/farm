@@ -91,7 +91,7 @@ public class SupplierInfo {
      */
     private String userVersion;
     /**
-     * 版本号（司机表）
+     * 版本号（供应商表）
      */
     private String supplierVersion;
 

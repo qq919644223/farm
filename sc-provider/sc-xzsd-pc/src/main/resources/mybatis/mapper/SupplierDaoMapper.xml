@@ -35,7 +35,7 @@
           #{userAcct},
           #{userPassword},
           #{idCard},
-          #{role},
+          4,
           #{phone},
           #{isDeleted},
           #{createName},
@@ -44,7 +44,7 @@
           now(),
           0)
     </insert>
-    <!--新增司机信息-->
+    <!--新增供应商信息-->
     <insert id="addSupplier" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo">
         insert into t_supplier
         (user_code,

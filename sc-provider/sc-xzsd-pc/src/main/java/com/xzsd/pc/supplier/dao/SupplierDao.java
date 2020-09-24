@@ -20,7 +20,7 @@ public interface SupplierDao {
      */
     int countAcct(SupplierInfo supplierInfo);
     /**
-     * 新增用户表司机信息
+     * 新增用户表供应商信息
      * @param supplierInfo
      * @return
      */

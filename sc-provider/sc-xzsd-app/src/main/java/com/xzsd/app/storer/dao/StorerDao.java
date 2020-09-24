@@ -21,7 +21,7 @@ public interface StorerDao {
      */
     UserInfo getStoreByCode(@Param("userId")String userId);
     /**
-     * 查询区域司机信息（店长端）
+     * 查询区域供应商信息（站长端）
      * @param userCode
      * @return
      */

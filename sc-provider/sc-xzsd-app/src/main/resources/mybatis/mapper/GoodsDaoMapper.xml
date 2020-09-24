@@ -21,8 +21,8 @@
          a.goods_introduce goodsIntroduce,
          a.sale_price salePrice,
          a.image_path imagePath,
-         a.a_level appraiseLeve,
-         a.sum_sale orderSum,
+         a.a_level appraiseLevel,
+         a.sum_sale sumSale,
          a.version version
        from
          t_goods a
@@ -50,6 +50,7 @@
         a.is_deleted = 0
         and
         a.goods_code = #{goodsCode}
+        <if test="appraiseLevel == 6">  </if>
         <if test="appraiseLevel == 1">
             and (a.a_level = 0 or a.a_level = 1)
         </if>

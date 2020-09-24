@@ -38,7 +38,7 @@ public class HomePageController {
         }
     }
     /**
-     * 查询热门商品
+     * 查询热门乡村
      * @param
      * @return AppResponse
      * @author jintian
