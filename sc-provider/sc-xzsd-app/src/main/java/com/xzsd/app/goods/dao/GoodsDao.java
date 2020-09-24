@@ -1,8 +1,6 @@
 package com.xzsd.app.goods.dao;
 
-import com.xzsd.app.goods.entity.GoodsClassInfo;
-import com.xzsd.app.goods.entity.GoodsEvaluates;
-import com.xzsd.app.goods.entity.GoodsInfo;
+import com.xzsd.app.goods.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,4 +39,18 @@ public interface GoodsDao {
      * @return
      */
     List<GoodsClassInfo> getSecondClass(@Param("lastClassCode") String lastClassCode);
+
+    /**
+     * 获取所有乡村信息
+     * @param  villageInfo
+     * @return 所有乡村信息
+     */
+    List<VillageInfo> listVillageByPage(VillageInfo villageInfo);
+
+    /**
+     * 查询省市区下拉列表
+     * @param parentCode
+     * @return 省市区列表信息
+     */
+    List<AreaInfo> listArea(@Param("parentCode") String parentCode);
 }

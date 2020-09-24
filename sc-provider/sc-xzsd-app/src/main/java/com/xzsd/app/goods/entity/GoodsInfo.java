@@ -32,7 +32,7 @@ public class GoodsInfo {
     /**
      * 评价星级
      */
-    private String appraiseLeve;
+    private String appraiseLevel;
     /**
      * 库存
      */
@@ -86,12 +86,12 @@ public class GoodsInfo {
         this.imagePath = imagePath;
     }
 
-    public String getAppraiseLeve() {
-        return appraiseLeve;
+    public String getAppraiseLevel() {
+        return appraiseLevel;
     }
 
-    public void setAppraiseLeve(String appraiseLeve) {
-        this.appraiseLeve = appraiseLeve;
+    public void setAppraiseLevel(String appraiseLevel) {
+        this.appraiseLevel = appraiseLevel;
     }
 
     public String getStoreCode() {

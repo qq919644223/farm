@@ -1,4 +1,4 @@
-package com.xzsd.pc.goods.entity;
+package com.xzsd.app.supplier.entity;
 
 /**
  * 产品的对象
@@ -191,6 +191,14 @@ public class GoodsInfo {
         this.advertisement = advertisement;
     }
 
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
     public String getGoodsIntroduce() {
         return goodsIntroduce;
     }
@@ -237,14 +245,6 @@ public class GoodsInfo {
 
     public void setSalePrice(String salePrice) {
         this.salePrice = salePrice;
-    }
-
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
     }
 
     public String getImagePath() {

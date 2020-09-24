@@ -3,6 +3,7 @@ package com.xzsd.app.goods.controller;
 import com.neusoft.core.restful.AppResponse;
 import com.xzsd.app.goods.entity.GoodsClassInfo;
 import com.xzsd.app.goods.entity.GoodsEvaluates;
+import com.xzsd.app.goods.entity.VillageInfo;
 import com.xzsd.app.goods.service.GoodsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,5 +95,39 @@ public class GoodsController {
         }
     }
 
+    /**
+     * getVillageList 乡村信息列表
+     * @param villageInfo
+     * @return AppResponse
+     * @author chenchaotao
+     * @Date 2020-08-23
+     */
+    @RequestMapping(value = "getVillageList")
+    public AppResponse listVillageByPage(VillageInfo villageInfo){
+        try{
+            return goodsService.listVillageByPage(villageInfo);
+        }catch (Exception e){
+            logger.error("查询乡村信息列表异常",e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
 
+    /**
+     * listArea 省市区列表下拉查询
+     * @param parentCode
+     * @return AppResponse
+     * @author chenchaotao
+     * @date 2020-08-23
+     */
+    @PostMapping("listArea")
+    public AppResponse listArea(String parentCode){
+        try{
+            return goodsService.listArea(parentCode);
+        }catch (Exception e){
+            logger.error("查询区列表异常",e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
 }

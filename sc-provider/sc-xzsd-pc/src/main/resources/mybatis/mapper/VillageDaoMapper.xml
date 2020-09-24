@@ -77,7 +77,7 @@
         order by a.create_time desc
     </select>
 
-    <!--获取门店详情-->
+    <!--获取乡村详情-->
     <select id="getVillageByVillageCode" parameterType="java.lang.String" resultType="com.xzsd.pc.village.entity.VillageInfo">
         select distinct
          a.village_code villageCode,

@@ -21,8 +21,8 @@
          a.goods_introduce goodsIntroduce,
          a.sale_price salePrice,
          a.image_path imagePath,
-         a.a_level appraiseLeve,
-         a.sum_sale orderSum,
+         a.a_level appraiseLevel,
+         a.sum_sale sumSale,
          a.version version
        from
          t_goods a
@@ -50,6 +50,7 @@
         a.is_deleted = 0
         and
         a.goods_code = #{goodsCode}
+        <if test="appraiseLevel == 6">  </if>
         <if test="appraiseLevel == 1">
             and (a.a_level = 0 or a.a_level = 1)
         </if>
@@ -109,4 +110,51 @@
         create_time desc
     </select>
 
+    <!--乡村信息列表-->
+    <select id="listVillageByPage" parameterType="com.xzsd.app.goods.entity.VillageInfo" resultType="com.xzsd.app.goods.entity.VillageInfo">
+        select
+        a.village_code villageCode,
+        a.village_name villageName,
+        a.village_introduce villageIntroduce,
+        a.image_code imageCode,
+        a.address address,
+        c.dic_name provinceName,
+        d.dic_name cityName,
+        e.dic_name areaName,
+        a.version version
+        from t_village a
+        left join t_dictionary c
+        on a.province_code = c.dic_code
+        left join t_dictionary d
+        on a.city_code = d.dic_code
+        left join t_dictionary e
+        on a.area_code = e.dic_code
+        where
+        a.is_deleted = 0
+        <if test="villageName != null and villageName != ''">
+            and a.village_name like concat('%', #{villageName}, '%')
+        </if>
+        <if test="provinceCode != null and provinceCode != ''">
+            and a.province_code = #{provinceCode}
+        </if>
+        <if test="cityCode != null and cityCode != ''">
+            and a.city_code = #{cityCode}
+        </if>
+        <if test="areaCode != null and areaCode != ''">
+            and a.area_code = #{areaCode}
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <!--查询省市区下拉列表-->
+    <select id="listArea" parameterType="java.lang.String" resultType="com.xzsd.app.goods.entity.AreaInfo">
+        select
+            dic_code areaCode,
+            dic_name areaName
+        from
+            t_dictionary
+        where
+            parent_code = #{parentCode}
+        order by dic_code
+    </select>
 </mapper>

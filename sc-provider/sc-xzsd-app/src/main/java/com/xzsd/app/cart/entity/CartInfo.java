@@ -35,6 +35,10 @@ public class CartInfo {
      */
     private String goodsIntroduce;
     /**
+     * 站点编码
+     */
+    private String storeCode;
+    /**
      * 售价
      */
     private float salePrice;
@@ -150,6 +154,14 @@ public class CartInfo {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
     }
 
     public int getOrderSum() {

@@ -48,6 +48,7 @@
         goods_code,
         order_sum,
         user_code,
+        store_code,
         create_time,
         create_name,
         is_deleted,
@@ -59,6 +60,7 @@
         #{goodsCode},
         #{orderSum},
         #{userId},
+        #{storeCode},
         now(),
         #{createName},
         #{isDeleted},
@@ -70,6 +72,7 @@
         select
             a.cart_code cartCode,
             a.goods_code goodsCode,
+            a.store_code storeCode,
             b.goods_name goodsName,
             b.image_path imagePath,
             b.sale_price salePrice,
