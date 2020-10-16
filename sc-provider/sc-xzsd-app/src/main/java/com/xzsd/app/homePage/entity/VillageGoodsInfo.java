@@ -30,6 +30,10 @@ public class VillageGoodsInfo {
      */
     private String imagePath;
     /**
+     * 销售量
+     */
+    private String sumSale;
+    /**
      * 乡村编码
      */
     private String villageCode;
@@ -132,5 +136,13 @@ public class VillageGoodsInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getSumSale() {
+        return sumSale;
+    }
+
+    public void setSumSale(String sumSale) {
+        this.sumSale = sumSale;
     }
 }

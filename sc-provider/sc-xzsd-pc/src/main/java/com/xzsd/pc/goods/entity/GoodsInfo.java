@@ -60,6 +60,10 @@ public class GoodsInfo {
      */
     private String salePrice;
     /**
+     * 销售量
+     */
+    private String sumSale;
+    /**
      * 图片路径
      */
     private String imagePath;
@@ -119,6 +123,10 @@ public class GoodsInfo {
      * 更新时间
      */
     private String updateTime;
+    /**
+     * 上下架时间
+     */
+    private String upTime;
     /**
      * 版本号
      */
@@ -381,5 +389,21 @@ public class GoodsInfo {
 
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
+    }
+
+    public String getSumSale() {
+        return sumSale;
+    }
+
+    public void setSumSale(String sumSale) {
+        this.sumSale = sumSale;
+    }
+
+    public String getUpTime() {
+        return upTime;
+    }
+
+    public void setUpTime(String upTime) {
+        this.upTime = upTime;
     }
 }

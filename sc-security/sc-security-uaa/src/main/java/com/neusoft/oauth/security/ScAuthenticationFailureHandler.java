@@ -1,6 +1,5 @@
 package com.neusoft.oauth.security;
 
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.core.maxfail.MaxFailException;
 import com.neusoft.security.core.validate.exception.ValidateCodeException;
 import org.springframework.security.authentication.BadCredentialsException;

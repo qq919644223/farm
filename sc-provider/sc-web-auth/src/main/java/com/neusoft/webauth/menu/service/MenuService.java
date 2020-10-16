@@ -1,6 +1,5 @@
 package com.neusoft.webauth.menu.service;
 
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.util.StringUtil;
 import com.neusoft.util.UUIDUtils;
 import com.neusoft.webauth.base.constant.GlobalConstant;

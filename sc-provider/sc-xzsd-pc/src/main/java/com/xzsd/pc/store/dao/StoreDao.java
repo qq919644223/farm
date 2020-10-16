@@ -65,4 +65,18 @@ public interface StoreDao {
      * @return 省市区列表信息
      */
     List<AreaInfo> listArea(@Param("parentCode") String parentCode);
+
+    /**
+     * 查询站长编码
+     * @param storeInfo
+     * @return
+     */
+    List<StoreInfo> listStoreBoss(StoreInfo storeInfo);
+
+    /**
+     * 获取登录角色的角色标记
+     * @param userCode
+     * @return
+     */
+    StoreInfo getUserRole(@Param("userCode") String userCode);
 }

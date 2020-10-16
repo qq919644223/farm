@@ -3,8 +3,6 @@ package com.xzsd.pc.store.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.neusoft.core.restful.AppResponse;
-import com.neusoft.security.client.utils.SecurityUtils;
-import com.neusoft.util.RandomUtil;
 import com.neusoft.util.StringUtil;
 import com.xzsd.pc.store.dao.StoreDao;
 import com.xzsd.pc.store.entity.AreaInfo;
@@ -58,6 +56,8 @@ public class StoreService {
      * @Date 2020-08-22
      */
     public AppResponse listStoreByPage(StoreInfo storeInfo){
+        StoreInfo sto = storeDao.getUserRole(storeInfo.getUserCode());
+        storeInfo.setRole(sto.getRole());
         PageHelper.startPage(storeInfo.getPageNum(), storeInfo.getPageSize());
         List<StoreInfo> storeInfoList = storeDao.listStoreByPage(storeInfo);
         //包装Page对象
@@ -142,5 +142,15 @@ public class StoreService {
     public AppResponse listArea(String parentCode){
         List<AreaInfo> areaInfoList = storeDao.listArea(parentCode);
         return AppResponse.success("查询成功",areaInfoList);
+    }
+
+    /**
+     *
+     * @param storeInfo
+     * @return
+     */
+    public AppResponse listStoreBoss(StoreInfo storeInfo) {
+        List<StoreInfo> storeInfos = storeDao.listStoreBoss(storeInfo);
+        return AppResponse.success("查询成功",storeInfos);
     }
 }

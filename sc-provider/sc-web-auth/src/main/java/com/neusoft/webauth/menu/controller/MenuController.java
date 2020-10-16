@@ -1,8 +1,6 @@
 package com.neusoft.webauth.menu.controller;
 
 import com.neusoft.core.exception.ScServerException;
-import com.neusoft.core.restful.AppResponse;
-import com.neusoft.core.restful.AppResponseStatus;
 import com.neusoft.security.client.utils.SecurityUtils;
 import com.neusoft.webauth.base.constant.GlobalConstant;
 import com.neusoft.webauth.base.entity.Tree;

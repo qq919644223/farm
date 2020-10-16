@@ -106,6 +106,7 @@
         where class_second_code = #{classSecondCode}
         and is_deleted = 0
         and goods_state = 2
+        and audit = 1
         order by
         create_time desc
     </select>

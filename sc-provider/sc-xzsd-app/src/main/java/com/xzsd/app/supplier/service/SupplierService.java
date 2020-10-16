@@ -2,11 +2,9 @@ package com.xzsd.app.supplier.service;
 
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
-import com.xzsd.app.customer.dao.UserDao;
 import com.xzsd.app.customer.entity.UserInfo;
 import com.xzsd.app.supplier.dao.SupplierDao;
 import com.xzsd.app.supplier.entity.GoodsInfo;
-import com.xzsd.app.supplier.entity.SupplierInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

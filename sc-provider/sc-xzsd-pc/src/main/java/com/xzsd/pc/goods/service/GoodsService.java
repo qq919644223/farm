@@ -73,7 +73,20 @@ public class GoodsService {
         PageInfo<GoodsInfo> pageData = new PageInfo<>(goodsInfoList);
         return AppResponse.success("查询列表成功！",pageData);
     }
-
+    /**
+     * 查询审核商品列表
+     * @author zhong
+     * @date 2020-08-22
+     * @param goodsInfo
+     * @return
+     */
+    public AppResponse listAuditGoodsByPage(GoodsInfo goodsInfo) {
+        PageHelper.startPage(goodsInfo.getPageNum(),goodsInfo.getPageSize());
+        List<GoodsInfo> goodsInfoList = goodsDao.listAuditGoodsByPage(goodsInfo);
+        //包装Page对象
+        PageInfo<GoodsInfo> pageData = new PageInfo<>(goodsInfoList);
+        return AppResponse.success("查询列表成功！",pageData);
+    }
     /**
      * 删除产品
      * @author zhong
@@ -197,4 +210,6 @@ public class GoodsService {
         List<StoreInfo> storeInfoList = goodsDao.getAllStore(storeInfo);
         return AppResponse.success("查询列表成功！",storeInfoList);
     }
+
+
 }

@@ -1,6 +1,5 @@
 package com.neusoft.oauth.security;
 
-import com.neusoft.core.restful.AppResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;

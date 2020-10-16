@@ -1,6 +1,5 @@
 package com.neusoft.webauth.user.service;
 
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.util.StringUtil;
 import com.neusoft.util.UUIDUtils;
 import com.neusoft.webauth.user.dao.UserDao;

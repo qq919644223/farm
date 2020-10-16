@@ -1,7 +1,5 @@
 package com.xzsd.pc.store.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
 import com.xzsd.pc.store.entity.StoreInfo;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @Description 站点信息管理
@@ -59,6 +56,9 @@ public class StoreController {
     @RequestMapping(value = "listStoreByPage")
     public AppResponse listStoreByPage(StoreInfo storeInfo){
         try{
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            storeInfo.setUserCode(userId);
             return storeService.listStoreByPage(storeInfo);
         }catch (Exception e){
             logger.error("查询站点信息列表异常",e);
@@ -139,6 +139,22 @@ public class StoreController {
             return storeService.listArea(parentCode);
         }catch (Exception e){
             logger.error("查询区列表异常",e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
+
+    /**
+     *
+     * @param storeInfo
+     * @return
+     */
+    @RequestMapping(value = "listStoreBoss")
+    public AppResponse listStoreBoss(StoreInfo storeInfo){
+        try{
+            return storeService.listStoreBoss(storeInfo);
+        } catch (Exception e) {
+            logger.error("查询失败失败！",e);
             System.out.println(e.toString());
             throw e;
         }

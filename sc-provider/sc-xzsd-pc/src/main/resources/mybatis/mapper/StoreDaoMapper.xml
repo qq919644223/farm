@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xzsd.pc.store.dao.StoreDao">
+    <!--获取当前登录人的角色-->
+    <select id="getUserRole" parameterType="java.lang.String" resultType="com.xzsd.pc.store.entity.StoreInfo">
+        select
+            role
+        from
+            t_sys_user
+        where
+            user_code = #{userCode}
+    </select>
+
     <!--统计营业执照或店长编号数量-->
     <select id="countCode" parameterType="com.xzsd.pc.store.entity.StoreInfo" resultType="int">
         select count(store_code)
         from t_store
         where is_deleted = 0
-        and license_code = #{licenseCode}
-        or user_code = #{userCode}
+        and (license_code = #{licenseCode}
+        or user_code = #{userCode})
         <if test="storeCode != null and storeCode != ''">
             and store_code != #{storeCode}
         </if>
@@ -71,6 +81,9 @@
         on a.user_code = b.user_code
         where
         a.is_deleted = 0
+        <if test="role == 3">
+            and a.user_code = #{userCode}
+        </if>
         <if test="storeCode != null and storeCode != ''">
             and a.store_code like concat('%', #{storeCode}, '%')
         </if>
@@ -186,5 +199,15 @@
         where
           parent_code = #{parentCode}
         order by dic_code
+    </select>
+
+    <select id="listStoreBoss" parameterType="com.xzsd.pc.store.entity.StoreInfo" resultType="com.xzsd.pc.store.entity.StoreInfo">
+        select
+            user_name userName,
+            user_code userCode
+        from
+            t_sys_user
+        where
+            role = 3
     </select>
 </mapper>
