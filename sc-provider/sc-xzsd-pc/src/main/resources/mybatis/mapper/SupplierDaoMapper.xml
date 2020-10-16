@@ -129,6 +129,7 @@
             update_time        = now(),
             update_name        = #{updateName},
             version            = #{supplierVersion}
+        where user_code = #{userCode}
     </update>
     <!--查询供应商列表-->
     <select id="listSupplierByPage" parameterType="com.xzsd.pc.supplier.entity.SupplierInfo" resultType="com.xzsd.pc.supplier.entity.SupplierInfo">

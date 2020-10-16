@@ -14,6 +14,10 @@ public class GoodsInfo {
      */
     private String goodsIntroduce;
     /**
+     * 销售量
+     */
+    private String sumSale;
+    /**
      * 站点编码
      */
     private String storeCode;
@@ -132,5 +136,13 @@ public class GoodsInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getSumSale() {
+        return sumSale;
+    }
+
+    public void setSumSale(String sumSale) {
+        this.sumSale = sumSale;
     }
 }

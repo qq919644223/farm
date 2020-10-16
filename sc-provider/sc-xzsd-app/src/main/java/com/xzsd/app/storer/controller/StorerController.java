@@ -2,7 +2,6 @@ package com.xzsd.app.storer.controller;
 
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
-import com.xzsd.app.customer.entity.UserInfo;
 import com.xzsd.app.storer.service.StorerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

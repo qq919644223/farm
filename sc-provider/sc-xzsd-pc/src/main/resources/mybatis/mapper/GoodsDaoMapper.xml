@@ -22,6 +22,7 @@
          a_level,
          goods_state,
          audit,
+         sum_sale,
          is_deleted,
          create_name,
          create_time,
@@ -46,6 +47,7 @@
         5,
         3,
         3,
+        0,
         #{isDeleted},
         #{createName},
         now(),
@@ -137,9 +139,61 @@
         LEFT JOIN t_sys_user e
         on a.user_code = e.user_code
         where  a.is_deleted = 0
+          and a.audit = 1
         <if test="goodsState != null and goodsState != ''">
             and a.goods_state like concat('%', #{goodsState}, '%')
         </if>
+        <if test="goodsName != null and goodsName != ''">
+            and a.goods_name like concat('%', #{goodsName}, '%')
+        </if>
+        <if test="advertisement != null and advertisement != ''">
+            and a.advertisement like concat('%', #{advertisement}, '%')
+        </if>
+        order by a.create_time desc
+    </select>
+
+    <!--查询审核产品列表-->
+    <select id="listAuditGoodsByPage" parameterType="com.xzsd.pc.goods.entity.GoodsInfo" resultType="com.xzsd.pc.goods.entity.GoodsInfo">
+        select
+        a.goods_code goodsCode,
+        a.goods_name goodsName,
+        a.cost_price costPrice,
+        a.sale_price salePrice,
+        a.sum_sale sumSale,
+        a.class_first_code classFirstCode,
+        a.class_second_code classSecondCode,
+        c.class_name classFirstName,
+        d.class_name classSecondName,
+        a.advertisement advertisement,
+        a.goods_introduce goodsIntroduce,
+        a.goods_state goodsState,
+        a.up_time upTime,
+        a.stock stock,
+        a.image_path imagePath,
+        a.goods_address goodsAddress,
+        a.user_code userCode,
+        e.user_name userName,
+        a.store_code storeCode,
+        b.store_name storeName,
+        a.quality_date qualityDate,
+        a.audit audit,
+        a.is_deleted isDeleted,
+        a.create_time createTime,
+        a.create_name createName,
+        a.update_time updateTime,
+        a.update_name updateName,
+        a.version version
+        from t_goods a
+        Left JOIN t_store b
+        on a.store_code = b.store_code
+        LEFT JOIN t_goods_class c
+        on a.class_first_code = c.class_code
+        LEFT JOIN t_goods_class d
+        on a.class_second_code = d.class_code
+        LEFT JOIN t_sys_user e
+        on a.user_code = e.user_code
+        where  a.is_deleted = 0
+          and audit = 3
         <if test="goodsName != null and goodsName != ''">
             and a.goods_name like concat('%', #{goodsName}, '%')
         </if>

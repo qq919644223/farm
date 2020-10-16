@@ -1,6 +1,5 @@
 package com.neusoft.support.sharding.demo.service;
 
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.support.sharding.demo.dao.UserDao;
 import com.neusoft.support.sharding.demo.entity.UserInfo;
 import com.neusoft.support.sharding.utils.PasswordUtils;

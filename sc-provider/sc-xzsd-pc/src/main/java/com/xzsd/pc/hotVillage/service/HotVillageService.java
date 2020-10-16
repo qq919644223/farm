@@ -6,7 +6,6 @@ import com.xzsd.pc.hotVillage.dao.HotVillageDao;
 import com.xzsd.pc.hotVillage.entity.HotVillageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.Arrays;

@@ -1,7 +1,6 @@
 package com.neusoft.webauth.user.controller;
 
 import com.neusoft.core.exception.ScServerException;
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
 import com.neusoft.webauth.user.entity.UserInfo;
 import com.neusoft.webauth.user.entity.UserSettingDTO;

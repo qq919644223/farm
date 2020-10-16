@@ -1,6 +1,5 @@
 package com.neusoft.security.core.validate.image;
 
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.core.validate.processor.AbstractValidateCodeProcessor;
 import com.neusoft.security.core.validate.processor.ValidateCodeHolder;
 import com.neusoft.security.core.validate.repository.ValidateCodeRepository;

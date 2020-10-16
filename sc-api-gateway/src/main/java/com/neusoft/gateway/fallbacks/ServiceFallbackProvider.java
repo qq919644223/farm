@@ -1,7 +1,9 @@
 package com.neusoft.gateway.fallbacks;
 
 
-import com.neusoft.core.restful.AppResponse;
+
+
+import com.neusoft.gateway.config.AppResponse;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

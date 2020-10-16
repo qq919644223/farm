@@ -8,7 +8,6 @@ import com.xzsd.pc.supplier.entity.SupplierInfo;
 import com.xzsd.pc.util.PasswordUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -139,4 +138,5 @@ public class SupplierService {
         }
         return AppResponse.success("删除成功！");
     }
+
 }

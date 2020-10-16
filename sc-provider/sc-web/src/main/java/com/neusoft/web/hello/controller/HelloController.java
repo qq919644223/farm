@@ -1,6 +1,5 @@
 package com.neusoft.web.hello.controller;
 
-import com.neusoft.core.restful.AppResponse;
 //import com.neusoft.core.restful.AppResponseStatus;
 //import com.neusoft.service.api.helloservice.entity.Role;
 //import com.neusoft.service.api.helloservice.entity.User;

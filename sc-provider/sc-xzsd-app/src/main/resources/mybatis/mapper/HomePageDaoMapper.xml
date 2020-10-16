@@ -46,6 +46,7 @@
             <id column="goods_name" property="goodsName" jdbcType="VARCHAR" />
             <id column="image_path" property="imagePath" jdbcType="VARCHAR" />
             <id column="sale_price" property="salePrice" jdbcType="VARCHAR" />
+            <id column="sum_sale" property="sumSale" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
     <select id="getVillageAndGoods" resultMap="getVillageAndGoods">
@@ -65,7 +66,8 @@
             goods_code goodsCode,
             goods_name goodsName,
             image_path imagePath,
-            sale_price salePrice
+            sale_price salePrice,
+            sum_sale sumSale
         from t_goods
         where store_code in
         (select store_code from t_store where village_code = #{villageCode})

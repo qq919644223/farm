@@ -1,7 +1,6 @@
 package com.neusoft.support.sharding.demo.controller;
 
 import com.neusoft.core.exception.ScServerException;
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
 import com.neusoft.support.sharding.demo.entity.UserInfo;
 import com.neusoft.support.sharding.demo.service.UserService;

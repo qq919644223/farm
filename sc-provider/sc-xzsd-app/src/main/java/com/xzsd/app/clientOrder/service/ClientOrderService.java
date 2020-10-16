@@ -23,7 +23,8 @@ import java.util.List;
 public class ClientOrderService {
     @Resource
     private ClientOrderDao clientOrderDao;
-
+    int state1 = 9;
+    int state2 = 5;
     /**
      * 客户端修改订单状态
      * @author zhong
@@ -38,7 +39,7 @@ public class ClientOrderService {
         //修改订单状态
         int updateOrderState = clientOrderDao.updateOrderState(clientOrderInfo);
         //如果修改订单的状态为取消订单  则回滚对应订单中的商品的库存  如果修改订单状态为确认收货，则增加商品的销售量
-        if (clientOrderInfo.getOrderState() == 9){
+        if (clientOrderInfo.getOrderState() == state1){
             //查询订单的商品编码 购买数量 商品的库存
             List<ClientOrderInfo> clientOrderInfoList = clientOrderDao.getOrder(clientOrderInfo.getOrderCode());
             //修改商品库存
@@ -46,7 +47,7 @@ public class ClientOrderService {
             if (0 == updateStock){
                 return AppResponse.bizError("数据无变化，请重试！");
             }
-        }else if (clientOrderInfo.getOrderState() == 5){
+        }else if (clientOrderInfo.getOrderState() == state2){
             //查询订单的商品编码 购买数量 商品的库存
             List<ClientOrderInfo> clientOrderInfoList = clientOrderDao.getOrder(clientOrderInfo.getOrderCode());
             //修改商品销售量

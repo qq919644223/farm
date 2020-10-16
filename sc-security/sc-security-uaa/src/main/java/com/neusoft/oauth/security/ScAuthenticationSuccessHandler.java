@@ -1,7 +1,6 @@
 package com.neusoft.oauth.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.neusoft.core.restful.AppResponse;
 import com.neusoft.oauth.service.UaaUserService;
 import com.neusoft.security.core.entity.SecurityUser;
 import com.neusoft.security.core.properties.BrowserProperties;

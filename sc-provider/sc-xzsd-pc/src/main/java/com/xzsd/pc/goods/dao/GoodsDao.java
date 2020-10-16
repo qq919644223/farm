@@ -43,6 +43,14 @@ public interface GoodsDao {
      * @return
      */
     List<GoodsInfo> listGoodsByPage(GoodsInfo goodsInfo);
+    /**
+     * 查询产品列表
+     * @author zhong
+     * @date 2020-08-12
+     * @param goodsInfo
+     * @return
+     */
+    List<GoodsInfo> listAuditGoodsByPage(GoodsInfo goodsInfo);
 
     /**
      * 查询轮播图的商品
@@ -117,4 +125,6 @@ public interface GoodsDao {
      * @return
      */
     List<StoreInfo> getAllStore(StoreInfo storeInfo);
+
+
 }

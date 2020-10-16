@@ -1,5 +1,6 @@
 package com.xzsd.pc.goods.controller;
 
+
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
 import com.xzsd.pc.goods.entity.GoodsInfo;
@@ -81,6 +82,24 @@ public class GoodsController {
     public AppResponse listGoodsByPage(GoodsInfo goodsInfo){
         try{
             return goodsService.listGoodsByPage(goodsInfo);
+        }catch (Exception e){
+            logger.error("查询列表失败",e);
+            System.out.println(e.toString());
+            throw e;
+        }
+    }
+
+    /**
+     * 查询审核产品列表
+     * @author zhong
+     * @date 2020-08-22
+     * @param goodsInfo
+     * @return
+     */
+    @PostMapping("listAuditGoodsByPage")
+    public AppResponse listAuditGoodsByPage(GoodsInfo goodsInfo){
+        try{
+            return goodsService.listAuditGoodsByPage(goodsInfo);
         }catch (Exception e){
             logger.error("查询列表失败",e);
             System.out.println(e.toString());
