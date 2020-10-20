@@ -109,9 +109,9 @@ public class ClientOrderController {
      * @return
      */
     @PostMapping("saveCartOrder")
-    private AppResponse saveCartOrder(String goodsCode, String orderSum, String cartCode, float orderMoney, String storeCode){
+    private AppResponse saveCartOrder(String goodsCode, String orderSum, String cartCode, float orderMoney, String storeCode,String addressCode){
         try{
-            return clientOrderService.saveCartOrder(goodsCode,orderSum,cartCode,orderMoney,storeCode);
+            return clientOrderService.saveCartOrder(goodsCode,orderSum,cartCode,orderMoney,storeCode,addressCode);
         }catch (Exception e){
             logger.error("新增订单失败",e);
             System.out.println(e.toString());

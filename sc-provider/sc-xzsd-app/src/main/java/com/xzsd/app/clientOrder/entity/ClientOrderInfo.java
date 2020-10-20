@@ -49,9 +49,26 @@ public class ClientOrderInfo {
      */
     private String storeCode;
     /**
+     * 收件人
+     */
+    private String getName;
+    /**
+     * 省份名称
+     */
+    private String provinceName;
+    /**
+     * 城市名称
+     */
+    private String cityName;
+    /**
+     * 区名称
+     */
+    private String areaName;
+    /**
      * 详情地址
      */
     private String address;
+
     /**
      * 商品集合
      */
@@ -484,5 +501,37 @@ public class ClientOrderInfo {
 
     public void setAvgLevel(String avgLevel) {
         this.avgLevel = avgLevel;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getGetName() {
+        return getName;
+    }
+
+    public void setGetName(String getName) {
+        this.getName = getName;
     }
 }

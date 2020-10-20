@@ -144,7 +144,7 @@ public class ClientOrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse saveCartOrder(String goodsCode, String orderSum, String cartCode, float orderMoney, String storeCode) {
+    public AppResponse saveCartOrder(String goodsCode, String orderSum, String cartCode, float orderMoney, String storeCode,String addressCode) {
         List<String> listGoods = Arrays.asList(goodsCode.split(","));
         List<String> listSum = Arrays.asList(orderSum.split(","));
         List<String> listCart = Arrays.asList(cartCode.split(","));
@@ -180,7 +180,7 @@ public class ClientOrderService {
             cartOrderInfoList.add(orderInfo);
         }
         //新增订单到订单表
-        int saveCartOrder = clientOrderDao.saveCartOrder(orderCode,userId,orderMoney,sumGoods);
+        int saveCartOrder = clientOrderDao.saveCartOrder(orderCode,userId,orderMoney,sumGoods,addressCode);
         //新增订单到订单详情表
         int saveCartOrderDetail = clientOrderDao.saveCartOrderDetail(cartOrderInfoList);
         if (0 == saveCartOrder || 0 == saveCartOrderDetail){

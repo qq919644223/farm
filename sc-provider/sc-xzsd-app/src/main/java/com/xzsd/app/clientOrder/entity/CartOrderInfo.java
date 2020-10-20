@@ -80,6 +80,10 @@ public class CartOrderInfo {
      */
     private String userId;
     /**
+     * 地址编码
+     */
+    private String addressCode;
+    /**
      * 作废标记 0为存在，1为作废
      */
     private int isDeleted;
@@ -162,6 +166,13 @@ public class CartOrderInfo {
         this.orderState = orderState;
     }
 
+    public String getAddressCode() {
+        return addressCode;
+    }
+
+    public void setAddressCode(String addressCode) {
+        this.addressCode = addressCode;
+    }
 
     public String getStoreCode() {
         return storeCode;

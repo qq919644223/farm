@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.app.address.dao.AddressDao">
+
+    <!--新增地址-->
+    <insert id="saveAddress" parameterType="com.xzsd.app.address.entity.AddressInfo">
+        insert into
+        t_address
+        (
+        address_code,
+        user_code,
+        province_code,
+        city_code,
+        area_code,
+        address,
+        get_name,
+        phone,
+        create_time,
+        create_name,
+        is_deleted,
+        version
+        )
+        values
+        (
+        #{addressCode},
+        #{userId},
+        #{provinceCode},
+        #{cityCode},
+        #{areaCode},
+        #{address},
+        #{getName},
+        #{phone},
+        now(),
+        #{createName},
+        #{isDeleted},
+        0
+        )
+    </insert>
+    <!--查询地址-->
+    <select id="getAddress" resultType="com.xzsd.app.address.entity.AddressInfo">
+        select
+            a.address_code addressCode,
+            a.user_code userCode,
+            b.dic_code provinceCode,
+            b.dic_name provinceName,
+            c.dic_code cityCode,
+            c.dic_name cityName,
+            d.dic_code areaCode,
+            d.dic_name areaName,
+            a.address address,
+            a.get_name getName,
+            a.phone phone
+        from t_address a
+        LEFT JOIN t_dictionary b
+        on a.province_code = b.dic_code
+        LEFT JOIN t_dictionary c
+        on a.city_code = c.dic_code
+        LEFT JOIN t_dictionary d
+        on a.area_code = d.dic_code
+        where a.user_code = #{userId}
+    </select>
+
+    <!--修改地址-->
+    <update id="updateAddSubAddress" parameterType="com.xzsd.app.address.entity.AddressInfo">
+        update t_address
+        set
+            province_code = #{provinceCode},
+            city_code = #{cityCode},
+            area_code = #{areaCode},
+            address = #{address},
+            get_name = #{getName},
+            phone = #{phone},
+            update_time = now(),
+            update_name = #{updateName},
+            version = version + 1
+        where address_code = #{addressCode}
+    </update>
+
+
+    <!--删除地址-->
+    <update id="deleteAddress" parameterType="com.xzsd.app.address.entity.AddressInfo">
+        update t_address
+        set
+            is_deleted = 1,
+            update_time = now(),
+            update_name = #{userId},
+            version = version + 1
+        where address_code in
+        <foreach item="item" index="index" collection="listCode" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--查询地址详情-->
+    <select id="getGoodsByGoodsCode" resultType="com.xzsd.app.address.entity.AddressInfo">
+        select
+            a.address_code addressCode,
+            a.user_code userCode,
+            b.dic_code provinceCode,
+            b.dic_name provinceName,
+            c.dic_code cityCode,
+            c.dic_name cityName,
+            d.dic_code areaCode,
+            d.dic_name areaName,
+            a.address address,
+            a.get_name getName,
+            a.phone phone
+        from t_address a
+         LEFT JOIN t_dictionary b
+                   on a.province_code = b.dic_code
+         LEFT JOIN t_dictionary c
+                   on a.city_code = c.dic_code
+         LEFT JOIN t_dictionary d
+                   on a.area_code = d.dic_code
+        where a.address_code = #{addressCode}
+    </select>
+</mapper>

@@ -112,6 +112,11 @@
         <result column="sum_goods" property="sumGoods" jdbcType="VARCHAR" />
         <result column="order_sum" property="orderSum" jdbcType="VARCHAR" />
         <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
+        <result column="get_name" property="getName" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="dic_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="dic_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="dic_name" property="areaName" jdbcType="VARCHAR" />
         <result column="address" property="address" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="VARCHAR" />
         <result column="version" property="version" jdbcType="VARCHAR" />
@@ -132,6 +137,11 @@
             a.order_state,
             a.sum_goods,
             b.store_code,
+            d.get_name,
+            d.phone,
+            e.dic_name,
+            f.dic_name,
+            g.dic_name,
             d.address,
             a.create_time,
             a.version,
@@ -146,8 +156,14 @@
         on a.order_code = b.order_code
         LEFT JOIN t_goods c
         on b.goods_code = c.goods_code
-        LEFT JOIN t_store d
-        on b.store_code = d.store_code
+        LEFT JOIN t_address d
+        on a.address_code = d.address_code
+        LEFT JOIN t_dictionary e
+        on d.province_code = e.dic_code
+        LEFT JOIN t_dictionary f
+        on d.city_code = f.dic_code
+        LEFT JOIN t_dictionary g
+        on d.area_code = g.dic_code
         where a.is_deleted = 0
         and a.order_code = #{orderCode}
     </select>
@@ -236,6 +252,7 @@
         order_money,
         order_state,
         sum_goods,
+        address_code,
         is_deleted,
         create_time,
         create_name,
@@ -248,6 +265,7 @@
         #{orderMoney},
         7,
         #{sumGoods},
+        #{addressCode},
         0,
         now(),
         #{userId},
