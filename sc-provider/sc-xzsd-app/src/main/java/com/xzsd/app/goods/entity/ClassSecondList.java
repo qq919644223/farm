@@ -25,7 +25,7 @@ public class ClassSecondList {
     /**
      * 商品图片路径
      */
-    private String imageUrl;
+    private String imagePath;
     /**
      * 商品售价
      */
@@ -118,12 +118,12 @@ public class ClassSecondList {
         this.goodsName = goodsName;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getSalePrice() {
