@@ -114,9 +114,9 @@
         <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
         <result column="get_name" property="getName" jdbcType="VARCHAR" />
         <result column="phone" property="phone" jdbcType="VARCHAR" />
-        <result column="dic_name" property="provinceName" jdbcType="VARCHAR" />
-        <result column="dic_name" property="cityName" jdbcType="VARCHAR" />
-        <result column="dic_name" property="areaName" jdbcType="VARCHAR" />
+        <result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+        <result column="cityName" property="cityName" jdbcType="VARCHAR" />
+        <result column="areaName" property="areaName" jdbcType="VARCHAR" />
         <result column="address" property="address" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="VARCHAR" />
         <result column="version" property="version" jdbcType="VARCHAR" />
@@ -139,9 +139,9 @@
             b.store_code,
             d.get_name,
             d.phone,
-            e.dic_name,
-            f.dic_name,
-            g.dic_name,
+            e.dic_name provinceName,
+            f.dic_name cityName,
+            g.dic_name areaName,
             d.address,
             a.create_time,
             a.version,
@@ -311,7 +311,7 @@
         </foreach>
     </insert>
 
-    <!--删除对应商品的购物车-->
+    <!--删除对应商品的购物车 -->
     <update id="updateCartGoods" parameterType="com.xzsd.app.clientOrder.entity.CartOrderInfo">
         update t_cart
         set

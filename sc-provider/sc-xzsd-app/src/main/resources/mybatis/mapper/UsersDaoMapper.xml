@@ -92,11 +92,12 @@
          where user_code = #{userCode}
     </update>
 
-    <!--获取客户信息-->
+    <!--获取客户信息 -->
     <select id="getMysef" resultType="com.xzsd.app.customer.entity.UserInfo">
         select
         a.user_code userCode,
         a.user_name userName,
+        a.user_acct userAcct,
         a.image_path imagePath,
         a.role role
         from
