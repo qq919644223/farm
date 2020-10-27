@@ -79,7 +79,7 @@ public class AddressController {
     }
 
     /**
-     * 修改地址数量
+     * 修改地址
      * @author zhong
      * @date 2020-08-25
      * @param addressInfo
@@ -91,9 +91,9 @@ public class AddressController {
             //获取当前登录的用户编码
             String userId = SecurityUtils.getCurrentUserId();
             addressInfo.setUpdateName(userId);
-            return addressService.updateAddSubAddress(addressInfo);
+            return addressService.updateAddSubAddress(addressInfo,userId);
         }catch (Exception e){
-            logger.error("查询失败",e);
+            logger.error("修改失败",e);
             System.out.println(e.toString());
             throw e;
         }

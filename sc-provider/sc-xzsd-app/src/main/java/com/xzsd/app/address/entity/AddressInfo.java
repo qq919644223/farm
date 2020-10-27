@@ -55,6 +55,10 @@ public class AddressInfo {
      */
     private String phone;
     /**
+     * 默认
+     */
+    private int betrue;
+    /**
      * 作废标记  0保留  1删除
      */
     private int isDeleted;
@@ -157,6 +161,14 @@ public class AddressInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getBetrue() {
+        return betrue;
+    }
+
+    public void setBetrue(int betrue) {
+        this.betrue = betrue;
     }
 
     public int getIsDeleted() {

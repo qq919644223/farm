@@ -19,6 +19,7 @@ public class AddressService {
     @Resource
     private AddressDao addressDao;
 
+    int bETRUE = 0;
     /**
      * 新增地址
      * @author zhong
@@ -57,21 +58,24 @@ public class AddressService {
     }
 
     /**
-     * 修改地址商品加减数量
+     * 修改地址商品
      * @author zhong
      * @date 2020-08-25
      * @param addressInfo
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public AppResponse updateAddSubAddress(AddressInfo addressInfo) {
-        AppResponse appResponse = AppResponse.success("修改成功");
-        //修改地址商品数量
+    public AppResponse updateAddSubAddress(AddressInfo addressInfo,String userId) {
+        if (addressInfo.getBetrue() == bETRUE){
+            int updateMoren = addressDao.updateMoren(userId);
+        }
+        //修改地址
         int updateAddSubAddress = addressDao.updateAddSubAddress(addressInfo);
         if (0 == updateAddSubAddress){
-            return AppResponse.bizError("修改失败");
+            return AppResponse.bizError("修改失败!");
+        }else {
+            return AppResponse.success("修改成功!");
         }
-        return appResponse;
     }
 
     /**

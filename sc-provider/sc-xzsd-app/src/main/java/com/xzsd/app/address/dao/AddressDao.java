@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AddressDao {
     /**
-     * 新增购物车
+     * 新增地址
      * @author zhong
      * @date 2020-08-25
      * @param addressInfo
@@ -18,7 +18,7 @@ public interface AddressDao {
     int saveAddress(AddressInfo addressInfo);
 
     /**
-     * 查询购物车  分页
+     * 查询地址  分页
      * @date 2020-08-25
      * @author zhong
      * @param addressInfo
@@ -27,7 +27,14 @@ public interface AddressDao {
     List<AddressInfo> getAddress(AddressInfo addressInfo);
 
     /**
-     * 修改购物车商品数量
+     * 修改数据库里是默认的为不默认
+     * @param userId
+     * @return
+     */
+    int updateMoren(@Param("userId") String userId);
+    
+    /**
+     * 修改地址商品数量
      * @author zhong
      * @date 2020-08-25
      * @param addressInfo
@@ -37,7 +44,7 @@ public interface AddressDao {
 
 
     /**
-     * 删除购物车
+     * 删除地址
      * @author zhong
      * @date 2020-08-25
      * @param listCode
@@ -52,4 +59,7 @@ public interface AddressDao {
      * @return
      */
     AddressInfo getGoodsByGoodsCode(@Param("addressCode") String addressCode);
+
+
+
 }

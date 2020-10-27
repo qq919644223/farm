@@ -15,6 +15,7 @@
         address,
         get_name,
         phone,
+        betrue,
         create_time,
         create_name,
         is_deleted,
@@ -30,6 +31,7 @@
         #{address},
         #{getName},
         #{phone},
+        1,
         now(),
         #{createName},
         #{isDeleted},
@@ -49,7 +51,8 @@
             d.dic_name areaName,
             a.address address,
             a.get_name getName,
-            a.phone phone
+            a.phone phone,
+            a.betrue betrue
         from t_address a
         LEFT JOIN t_dictionary b
         on a.province_code = b.dic_code
@@ -70,6 +73,7 @@
             address = #{address},
             get_name = #{getName},
             phone = #{phone},
+            betrue = #{betrue},
             update_time = now(),
             update_name = #{updateName},
             version = version + 1
@@ -104,7 +108,8 @@
             d.dic_name areaName,
             a.address address,
             a.get_name getName,
-            a.phone phone
+            a.phone phone,
+            a.betrue betrue
         from t_address a
          LEFT JOIN t_dictionary b
                    on a.province_code = b.dic_code
@@ -114,4 +119,14 @@
                    on a.area_code = d.dic_code
         where a.address_code = #{addressCode}
     </select>
+
+    <update id="updateMoren" parameterType="com.xzsd.app.address.entity.AddressInfo">
+        update t_address
+            set
+            betrue = 1
+        where
+            is_deleted = 0
+        and (betrue = 0
+        and user_code = #{userId})
+    </update>
 </mapper>
